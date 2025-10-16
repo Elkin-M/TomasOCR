@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SENA - OCR Document Comparison</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39A900",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#1E1E1E",
+                        "sidebar-dark": "#252526",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-white">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
+                    style='background-image: url("assets/logo_sena.png");'>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
+                    <p class="text-text-secondary text-sm font-normal leading-normal">Automatización</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-2 flex-grow">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="dashboard.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <p class="text-sm font-medium leading-normal">Dashboard</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="SGS.html">
+                    <span class="material-symbols-outlined">description</span>
+                    <p class="text-sm font-medium leading-normal">SGS</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="reportesInscritos.html">
+                    <span class="material-symbols-outlined">download</span>
+                    <p class="text-sm font-medium leading-normal">Reportes</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
+                    href="OCR.html">
+                    <span class="material-symbols-outlined">document_scanner</span>
+                    <p class="text-sm font-medium leading-normal">OCR</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="convocarAspirantes.html">
+                    <span class="material-symbols-outlined">group</span>
+                    <p class="text-sm font-medium leading-normal">Aspirantes</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="finMatricula.html">
+                    <span class="material-symbols-outlined">school</span>
+                    <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="Configuracion.html">
+                    <span class="material-symbols-outlined">settings</span>
+                    <p class="text-sm font-medium leading-normal">Configuración</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="auto.html">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <p class="text-sm font-medium leading-normal">Auto</p>
+                </a>
+            </nav>
+            <div class="flex flex-col gap-2 mt-8">
+                <div class="flex items-center gap-3 px-3 py-2">
+                    <span class="material-symbols-outlined text-text-secondary">account_circle</span>
+                    <p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p>
+                </div>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="#">
+                    <span class="material-symbols-outlined">logout</span>
+                    <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <header class="mb-8">
+                <h1 class="text-4xl font-black tracking-[-0.033em]">Comparación de Documentos con OCR</h1>
+            </header>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left Column: File Upload and Selection -->
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <p class="text-gray-300 text-base font-normal leading-normal pb-3 pt-1">Arrastra y suelta tus
+                            archivos PDF aquí o haz clic para seleccionarlos.</p>
+                        <div id="drop-zone"
+                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-gray-600 px-6 py-14 bg-gray-800/30">
+                            <div class="flex max-w-[480px] flex-col items-center gap-2 text-center">
+                                <p class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Subir Archivos
+                                </p>
+                                <p class="text-gray-400 text-sm font-normal leading-normal">Puedes subir hasta 5
+                                    archivos PDF con documentos de identidad.</p>
+                            </div>
+                            <button id="select-files-button"
+                                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-700 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-600">
+                                <span class="truncate">Seleccionar Archivos</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-lg font-bold text-white">Archivos Cargados</h2>
+                        <div id="uploaded-files-container" class="bg-gray-800/30 rounded-lg p-4">
+                            <label class="flex items-center gap-x-3 py-3 border-b border-gray-700">
+                                <input checked=""
+                                    class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
+                                    type="checkbox" />
+                                <p class="text-white text-base font-normal leading-normal flex-1">
+                                    Documento_Identidad_Juan_Perez.pdf</p>
+                                <button class="text-gray-400 hover:text-white"><span
+                                        class="material-symbols-outlined">visibility</span></button>
+                                <button class="text-gray-400 hover:text-red-500"><span
+                                        class="material-symbols-outlined">delete</span></button>
+                            </label>
+                            <label class="flex items-center gap-x-3 py-3 border-b border-gray-700">
+                                <input checked=""
+                                    class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
+                                    type="checkbox" />
+                                <p class="text-white text-base font-normal leading-normal flex-1">
+                                    Cedula_Maria_Rodriguez.pdf</p>
+                                <button class="text-gray-400 hover:text-white"><span
+                                        class="material-symbols-outlined">visibility</span></button>
+                                <button class="text-gray-400 hover:text-red-500"><span
+                                        class="material-symbols-outlined">delete</span></button>
+                            </label>
+                            <label class="flex items-center gap-x-3 py-3">
+                                <input
+                                    class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
+                                    type="checkbox" />
+                                <p class="text-white text-base font-normal leading-normal flex-1">ID_Carlos_Gomez.pdf
+                                </p>
+                                <button class="text-gray-400 hover:text-white"><span
+                                        class="material-symbols-outlined">visibility</span></button>
+                                <button class="text-gray-400 hover:text-red-500"><span
+                                        class="material-symbols-outlined">delete</span></button>
+                            </label>
+                        </div>
+                    </div>
+                    <button id="process-ocr-button"
+                        class="w-full flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-primary text-white text-base font-bold hover:bg-green-600 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                        <span class="material-symbols-outlined">sync</span>
+                        <span>Procesar con OCR</span>
+                    </button>
+                </div>
+                <!-- Right Column: OCR Results -->
+                <div class="flex flex-col gap-6">
+                    <h2 class="text-lg font-bold text-white">Resultados del Procesamiento</h2>
+                    <div class="bg-gray-800/30 rounded-lg overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-300">
+                                <thead class="text-xs text-white uppercase bg-gray-700/50">
+                                    <tr>
+                                        <th class="px-6 py-3" scope="col">Archivo de Origen</th>
+                                        <th class="px-6 py-3" scope="col">Información Extraída</th>
+                                        <th class="px-6 py-3" scope="col">Estado</th>
+                                        <th class="px-6 py-3" scope="col">Similitud</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-700">
+                                        <td class="px-6 py-4 font-medium text-white">Documento_Identidad_Juan_Perez.pdf
+                                        </td>
+                                        <td class="px-6 py-4">Nombre: Juan Perez<br />C.C: 123.456.789</td>
+                                        <td class="px-6 py-4">
+                                            <span class="flex items-center gap-2 text-green-400">
+                                                <span class="material-symbols-outlined text-base">check_circle</span>
+                                                Exitoso
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 font-bold text-white">98%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-700">
+                                        <td class="px-6 py-4 font-medium text-white">Cedula_Maria_Rodriguez.pdf</td>
+                                        <td class="px-6 py-4">Nombre: Maria Rodriguez<br />C.C: 987.654.321</td>
+                                        <td class="px-6 py-4">
+                                            <span class="flex items-center gap-2 text-green-400">
+                                                <span class="material-symbols-outlined text-base">check_circle</span>
+                                                Exitoso
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 font-bold text-white">95%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center py-10" colspan="4">
+                                            <div class="flex flex-col items-center justify-center gap-2 text-gray-500">
+                                                <div
+                                                    class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary">
+                                                </div>
+                                                <p>Procesando ID_Carlos_Gomez.pdf...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="opacity-50">
+                                        <td class="px-6 py-4 font-medium text-white">ID_Carlos_Gomez.pdf</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4">
+                                            <span class="flex items-center gap-2 text-yellow-400">
+                                                <span class="material-symbols-outlined text-base">pending</span>
+                                                Pendiente
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 font-bold text-white">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 rounded-lg bg-red-900/50 p-4" role="alert">
+                        <span class="material-symbols-outlined text-red-400">error</span>
+                        <div>
+                            <p class="font-bold text-red-300">Error de Procesamiento</p>
+                            <p class="text-sm text-red-300/80">No se pudo conectar con el script de OCR. Por favor,
+                                verifique que el servicio esté en ejecución.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <input type="file" id="file-input" class="hidden" multiple accept=".pdf" />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const selectFilesButton = document.getElementById('select-files-button');
+            const fileInput = document.getElementById('file-input');
+            const uploadedFilesContainer = document.getElementById('uploaded-files-container');
+            const processOcrButton = document.getElementById('process-ocr-button');
+            const originalFileListHTML = uploadedFilesContainer.innerHTML; // Save the initial state
+
+            let selectedFiles = [];
+
+            // Function to trigger file input
+            selectFilesButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // Handle file selection from input
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+
+            // Drag and drop events
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-primary', 'bg-gray-700/50');
+            });
+
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-primary', 'bg-gray-700/50');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-primary', 'bg-gray-700/50');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            // Central file handling function
+            function handleFiles(files) {
+                const newFiles = Array.from(files).filter(file => file.type === 'application/pdf');
+                if (newFiles.length === 0) {
+                    alert('Por favor, selecciona solo archivos PDF.');
+                    return;
+                }
+                
+                // You might want to add logic to limit to 5 files total
+                selectedFiles.push(...newFiles);
+                updateFileList();
+            }
+
+            // Update UI with selected files
+            function updateFileList() {
+                if (selectedFiles.length === 0) {
+                    uploadedFilesContainer.innerHTML = originalFileListHTML;
+                    processOcrButton.disabled = true;
+                    return;
+                }
+
+                uploadedFilesContainer.innerHTML = ''; // Clear the list
+                selectedFiles.forEach((file, index) => {
+                    const fileItemHTML = `
+                        <label class="flex items-center gap-x-3 py-3 ${index < selectedFiles.length - 1 ? 'border-b border-gray-700' : ''}">
+                            <input checked=""
+                                class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
+                                type="checkbox" />
+                            <p class="text-white text-base font-normal leading-normal flex-1 truncate" title="${file.name}">
+                                ${file.name}
+                            </p>
+                            <button class="text-gray-400 hover:text-white" onclick="alert('Función de visibilidad no implementada.')">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500" data-index="${index}" onclick="removeFile(event)">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </label>
+                    `;
+                    uploadedFilesContainer.innerHTML += fileItemHTML;
+                });
+
+                processOcrButton.disabled = false;
+            }
+            
+            // Function to remove a file
+            window.removeFile = (event) => {
+                const button = event.currentTarget;
+                const index = parseInt(button.dataset.index, 10);
+                selectedFiles.splice(index, 1);
+                updateFileList();
+            }
+        });
+    </script>
+</body>
+
+</html>

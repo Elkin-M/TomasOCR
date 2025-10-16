@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SENA - Descarga de Reportes SGS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1773cf",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                        "card-dark": "#1E1E1E",
+                        "text-light": "#E0E0E0",
+                        "text-secondary": "#B0B0B0",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="flex h-screen">
+        <!-- SideNavBar -->
+        <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
+                    style='background-image: url("assets/logo_sena.png");'>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
+                    <p class="text-text-secondary text-sm font-normal leading-normal">Automatización</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-2 flex-grow">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="dashboard.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <p class="text-sm font-medium leading-normal">Dashboard</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
+                    href="SGS.html">
+                    <span class="material-symbols-outlined">description</span>
+                    <p class="text-sm font-medium leading-normal">SGS</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="reportesInscritos.html">
+                    <span class="material-symbols-outlined">download</span>
+                    <p class="text-sm font-medium leading-normal">Reportes</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="OCR.html">
+                    <span class="material-symbols-outlined">document_scanner</span>
+                    <p class="text-sm font-medium leading-normal">OCR</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="convocarAspirantes.html">
+                    <span class="material-symbols-outlined">group</span>
+                    <p class="text-sm font-medium leading-normal">Aspirantes</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="finMatricula.html">
+                    <span class="material-symbols-outlined">school</span>
+                    <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="Configuracion.html">
+                    <span class="material-symbols-outlined">settings</span>
+                    <p class="text-sm font-medium leading-normal">Configuración</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="auto.html">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <p class="text-sm font-medium leading-normal">Auto</p>
+                </a>
+            </nav>
+            <div class="flex flex-col gap-2 mt-8">
+                <div class="flex items-center gap-3 px-3 py-2">
+                    <span class="material-symbols-outlined text-text-secondary">account_circle</span>
+                    <p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p>
+                </div>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="#">
+                    <span class="material-symbols-outlined">logout</span>
+                    <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-4xl mx-auto">
+                <!-- PageHeading -->
+                <header class="mb-8">
+                    <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Reportes SGS</p>
+                </header>
+                <!-- Download Area -->
+                <section class="bg-[#1c2126] p-6 rounded-xl mb-8">
+                    <!-- HeadlineText -->
+                    <h3 class="text-white tracking-light text-2xl font-bold leading-tight pb-2">Generar Reporte de
+                        Estado de Ficha (SGS)</h3>
+                    <p class="text-[#9dabb8] text-sm mb-6">Ingrese el número de la ficha para la cual desea generar el
+                        reporte.</p>
+                    <div class="flex items-end gap-4">
+                        <!-- TextField -->
+                        <div class="flex-1">
+                            <label class="flex flex-col">
+                                <p class="text-white text-base font-medium leading-normal pb-2">Número de Ficha</p>
+                                <input
+                                    class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c4753] bg-[#111921] focus:border-primary h-14 placeholder:text-[#9dabb8] p-4 text-base font-normal leading-normal"
+                                    placeholder="Ej: 2618239" value="" />
+                            </label>
+                        </div>
+                        <!-- SingleButton -->
+                        <div>
+                            <button
+                                class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary hover:bg-opacity-90 text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]">
+                                <span class="material-symbols-outlined">download</span>
+                                <span class="truncate">Descargar Reporte</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <!-- Download History -->
+                <section>
+                    <!-- HeadlineText -->
+                    <h3 class="text-white tracking-light text-2xl font-bold leading-tight mb-4">Historial de Descargas
+                    </h3>
+                    <div class="bg-[#1c2126] rounded-xl overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="border-b border-[#3c4753]">
+                                <tr>
+                                    <th class="p-4 text-sm font-semibold text-[#9dabb8]">NÚMERO DE FICHA</th>
+                                    <th class="p-4 text-sm font-semibold text-[#9dabb8]">FECHA Y HORA</th>
+                                    <th class="p-4 text-sm font-semibold text-[#9dabb8]">ESTADO</th>
+                                    <th class="p-4 text-sm font-semibold text-[#9dabb8]">ACCIÓN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-[#3c4753]">
+                                    <td class="p-4 text-white">2618239</td>
+                                    <td class="p-4 text-[#9dabb8]">15/07/2024 10:30 AM</td>
+                                    <td class="p-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/20 text-green-400">
+                                            Completada
+                                        </span>
+                                    </td>
+                                    <td class="p-4">
+                                        <button class="text-primary hover:text-opacity-80">
+                                            <span class="material-symbols-outlined">downloading</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-[#3c4753]">
+                                    <td class="p-4 text-white">2558741</td>
+                                    <td class="p-4 text-[#9dabb8]">14/07/2024 02:15 PM</td>
+                                    <td class="p-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/20 text-green-400">
+                                            Completada
+                                        </span>
+                                    </td>
+                                    <td class="p-4">
+                                        <button class="text-primary hover:text-opacity-80">
+                                            <span class="material-symbols-outlined">downloading</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-white">2405678</td>
+                                    <td class="p-4 text-[#9dabb8]">13/07/2024 09:00 AM</td>
+                                    <td class="p-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/20 text-red-400">
+                                            Fallida
+                                        </span>
+                                    </td>
+                                    <td class="p-4">
+                                        <button class="text-primary hover:text-opacity-80">
+                                            <span class="material-symbols-outlined">downloading</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

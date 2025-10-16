@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SENA - Generador de Reportes</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1773cf",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                        "card-dark": "#1E1E1E",
+                        "text-light": "#E0E0E0",
+                        "text-secondary": "#B0B0B0",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="flex h-full grow">
+            <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
+                        style='background-image: url("assets/logo_sena.png");'>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
+                        <p class="text-text-secondary text-sm font-normal leading-normal">Automatización</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2 flex-grow">
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="dashboard.html">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <p class="text-sm font-medium leading-normal">Dashboard</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="SGS.html">
+                        <span class="material-symbols-outlined">description</span>
+                        <p class="text-sm font-medium leading-normal">SGS</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
+                        href="reportesInscritos.html">
+                        <span class="material-symbols-outlined">download</span>
+                        <p class="text-sm font-medium leading-normal">Reportes</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="OCR.html">
+                        <span class="material-symbols-outlined">document_scanner</span>
+                        <p class="text-sm font-medium leading-normal">OCR</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="convocarAspirantes.html">
+                        <span class="material-symbols-outlined">group</span>
+                        <p class="text-sm font-medium leading-normal">Aspirantes</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="finMatricula.html">
+                        <span class="material-symbols-outlined">school</span>
+                        <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="Configuracion.html">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium leading-normal">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="auto.html">
+                        <span class="material-symbols-outlined">smart_toy</span>
+                        <p class="text-sm font-medium leading-normal">Auto</p>
+                    </a>
+                </nav>
+                <div class="flex flex-col gap-2 mt-8">
+                    <div class="flex items-center gap-3 px-3 py-2">
+                        <span class="material-symbols-outlined text-text-secondary">account_circle</span>
+                        <p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p>
+                    </div>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </aside>
+            <div class="flex-1 p-8">
+                <div class="flex flex-col gap-8 max-w-7xl mx-auto">
+                    <div>
+                        <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Generador de
+                            Reportes de Inscritos</p>
+                        <p class="text-[#9dabb8] text-base font-normal leading-normal mt-2">Ingrese el número de ficha
+                            para generar el reporte de aprendices inscritos.</p>
+                    </div>
+                    <div class="flex items-end gap-4">
+                        <label class="flex flex-col flex-1 max-w-md">
+                            <p class="text-white text-base font-medium leading-normal pb-2">Número de Ficha</p>
+                            <input id="ficha-input"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c4753] bg-[#1c2126] focus:border-primary h-14 placeholder:text-[#9dabb8] p-[15px] text-base font-normal leading-normal"
+                                placeholder="Ej: 2453987" value="" />
+                        </label>
+                        <button id="execute-button"
+                            class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]">
+                            <span class="material-symbols-outlined">play_arrow</span>
+                            <span class="truncate">Ejecutar</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="flex flex-col">
+                            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Registro de
+                                Actividad</h3>
+                            <div id="activity-log" class="bg-[#1c2126] rounded-lg p-4 h-96 overflow-y-auto border border-[#3c4753]">
+                                <p class="text-[#888888] font-mono text-sm">[10:30:01] Esperando ejecución para mostrar
+                                    el registro de actividad...</p>
+                                <p class="text-[#888888] font-mono text-sm">[10:30:15] <span
+                                        class="text-green-400">Iniciando WebDriver...</span></p>
+                                <p class="text-[#888888] font-mono text-sm">[10:30:16] Navegando a la página de inicio
+                                    de sesión...</p>
+                                <p class="text-[#888888] font-mono text-sm">[10:30:18] <span class="text-red-400">Error:
+                                        No se pudo encontrar el elemento de contraseña.</span></p>
+                                <p class="text-[#888888] font-mono text-sm">[10:30:20] Proceso completado.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Resultados
+                                del Reporte</h3>
+                            <div
+                                class="bg-[#1c2126] rounded-lg overflow-hidden border border-[#3c4753] h-96 flex flex-col">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-left text-[#9dabb8]">
+                                        <thead class="text-xs text-white uppercase bg-[#293038]">
+                                            <tr>
+                                                <th class="px-6 py-3" scope="col">Nombre del Aprendiz</th>
+                                                <th class="px-6 py-3" scope="col">Número de Documento</th>
+                                                <th class="px-6 py-3" scope="col">Estado de Inscripción</th>
+                                                <th class="px-6 py-3" scope="col">Correo Electrónico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="results-table-body">
+                                            <tr class="bg-[#1c2126] border-b border-[#3c4753]">
+                                                <th class="px-6 py-4 font-medium text-white whitespace-nowrap"
+                                                    scope="row">Ana María García</th>
+                                                <td class="px-6 py-4">1023456789</td>
+                                                <td class="px-6 py-4 text-green-400">Inscrito</td>
+                                                <td class="px-6 py-4">ana.garcia@example.com</td>
+                                            </tr>
+                                            <tr class="bg-[#1c2126] border-b border-[#3c4753]">
+                                                <th class="px-6 py-4 font-medium text-white whitespace-nowrap"
+                                                    scope="row">Carlos José Rodriguez</th>
+                                                <td class="px-6 py-4">1098765432</td>
+                                                <td class="px-6 py-4 text-green-400">Inscrito</td>
+                                                <td class="px-6 py-4">carlos.rodriguez@example.com</td>
+                                            </tr>
+                                            <tr class="bg-[#1c2126] border-b border-[#3c4753]">
+                                                <th class="px-6 py-4 font-medium text-white whitespace-nowrap"
+                                                    scope="row">Luisa Fernanda Perez</th>
+                                                <td class="px-6 py-4">1012345678</td>
+                                                <td class="px-6 py-4 text-orange-400">En Proceso</td>
+                                                <td class="px-6 py-4">luisa.perez@example.com</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="results-placeholder" class="flex-1 flex items-center justify-center">
+                                    <p class="text-[#888888]">Los resultados del reporte se mostrarán aquí.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fichaInput = document.getElementById('ficha-input');
+            const executeButton = document.getElementById('execute-button');
+            const activityLog = document.getElementById('activity-log');
+            const resultsTableBody = document.getElementById('results-table-body');
+            const resultsPlaceholder = document.getElementById('results-placeholder');
+
+            const sampleData = [
+                { name: 'Ana María García', doc: '1023456789', status: 'Inscrito', email: 'ana.garcia@example.com', statusColor: 'text-green-400' },
+                { name: 'Carlos José Rodriguez', doc: '1098765432', status: 'Inscrito', email: 'carlos.rodriguez@example.com', statusColor: 'text-green-400' },
+                { name: 'Luisa Fernanda Perez', doc: '1012345678', status: 'En Proceso', email: 'luisa.perez@example.com', statusColor: 'text-orange-400' },
+                { name: 'Javier Andres Gomez', doc: '1033456789', status: 'No Inscrito', email: 'javier.gomez@example.com', statusColor: 'text-red-400' },
+            ];
+
+            function updateButtonState() {
+                if (fichaInput.value.trim() !== '') {
+                    executeButton.disabled = false;
+                    executeButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    executeButton.disabled = true;
+                    executeButton.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            fichaInput.addEventListener('input', updateButtonState);
+
+            executeButton.addEventListener('click', () => {
+                // Clear previous results
+                activityLog.innerHTML = '';
+                resultsTableBody.innerHTML = '';
+                resultsPlaceholder.classList.remove('hidden');
+
+                // Simulate activity log
+                const logMessages = [
+                    { text: `Iniciando proceso para ficha ${fichaInput.value}...`, color: 'text-gray-400' },
+                    { text: 'Iniciando WebDriver...', color: 'text-green-400' },
+                    { text: 'Navegando a la página de inicio de sesión...', color: 'text-gray-400' },
+                    { text: 'Ingresando credenciales...', color: 'text-gray-400' },
+                    { text: 'Buscando reportes...', color: 'text-green-400' },
+                    { text: 'Reporte generado exitosamente.', color: 'text-green-400' },
+                    { text: 'Proceso completado.', color: 'text-gray-400' }
+                ];
+
+                let delay = 0;
+                logMessages.forEach(msg => {
+                    setTimeout(() => {
+                        const p = document.createElement('p');
+                        p.className = 'font-mono text-sm';
+                        const timestamp = new Date().toLocaleTimeString();
+                        p.innerHTML = `[${timestamp}] <span class="${msg.color}">${msg.text}</span>`;
+                        activityLog.appendChild(p);
+                        activityLog.scrollTop = activityLog.scrollHeight;
+                    }, delay);
+                    delay += 500; 
+                });
+
+                // Simulate fetching and displaying results
+                setTimeout(() => {
+                    resultsPlaceholder.classList.add('hidden');
+                    sampleData.forEach(item => {
+                        const row = `
+                            <tr class="bg-[#1c2126] border-b border-[#3c4753]">
+                                <th class="px-6 py-4 font-medium text-white whitespace-nowrap" scope="row">${item.name}</th>
+                                <td class="px-6 py-4">${item.doc}</td>
+                                <td class="px-6 py-4 ${item.statusColor}">${item.status}</td>
+                                <td class="px-6 py-4">${item.email}</td>
+                            </tr>
+                        `;
+                        resultsTableBody.innerHTML += row;
+                    });
+                }, delay);
+            });
+
+            // Initial state
+            updateButtonState();
+        });
+    </script>
+</body>
+
+</html>

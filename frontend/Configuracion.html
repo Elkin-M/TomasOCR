@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Configuración - SENA Automatización</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00A9E0",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#121212",
+                        "card-dark": "#1E1E1E",
+                        "text-light": "#E0E0E0",
+                        "text-secondary": "#888888",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark font-display text-text-light">
+    <div class="flex min-h-screen">
+        <!-- Sidebar de Navegación -->
+        <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
+                    style='background-image: url("assets/logo_sena.png");'>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
+                    <p class="text-text-secondary text-sm font-normal leading-normal">Automatización</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-2 flex-grow">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="dashboard.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <p class="text-sm font-medium leading-normal">Dashboard</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="SGS.html">
+                    <span class="material-symbols-outlined">description</span>
+                    <p class="text-sm font-medium leading-normal">SGS</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="reportesInscritos.html">
+                    <span class="material-symbols-outlined">download</span>
+                    <p class="text-sm font-medium leading-normal">Reportes</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="OCR.html">
+                    <span class="material-symbols-outlined">document_scanner</span>
+                    <p class="text-sm font-medium leading-normal">OCR</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="convocarAspirantes.html">
+                    <span class="material-symbols-outlined">group</span>
+                    <p class="text-sm font-medium leading-normal">Aspirantes</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="finMatricula.html">
+                    <span class="material-symbols-outlined">school</span>
+                    <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
+                    href="Configuracion.html">
+                    <span class="material-symbols-outlined">settings</span>
+                    <p class="text-sm font-medium leading-normal">Configuración</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="auto.html">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <p class="text-sm font-medium leading-normal">Auto</p>
+                </a>
+            </nav>
+            <div class="flex flex-col gap-2 mt-8">
+                <div class="flex items-center gap-3 px-3 py-2">
+                    <span class="material-symbols-outlined text-text-secondary">account_circle</span>
+                    <p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p>
+                </div>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
+                    href="#">
+                    <span class="material-symbols-outlined">logout</span>
+                    <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                </a>
+            </div>
+        </aside>
+        <!-- Contenido Principal -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-4xl mx-auto">
+                <!-- Título de la Página -->
+                <div class="mb-8">
+                    <h1 class="text-4xl font-black tracking-tight text-white">Configuración de la Aplicación</h1>
+                    <p class="text-text-secondary mt-2">Ajusta las preferencias generales y de integración de la
+                        aplicación.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="flex flex-col gap-8">
+                        <!-- Card de Rutas de Archivos -->
+                        <div class="bg-card-dark p-6 rounded-lg">
+                            <h2 class="text-xl font-bold text-white mb-1">Rutas de Archivos</h2>
+                            <p class="text-text-secondary mb-6">Define las carpetas de entrada y salida para los
+                                procesos.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-sm font-medium text-text-light block mb-2"
+                                        for="input-folder">Carpeta de Entrada</label>
+                                    <div class="flex items-center">
+                                        <input
+                                            class="form-input flex-grow w-full min-w-0 resize-none rounded-l-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#3c4753] bg-[#1c2126] placeholder:text-text-secondary p-3 text-sm"
+                                            id="input-folder" placeholder="C:\Users\...\Entrada" type="text" />
+                                        <button
+                                            class="bg-[#3c4753] hover:bg-[#4a5a6a] text-white p-3 rounded-r-lg text-sm font-semibold">Examinar</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-text-light block mb-2"
+                                        for="output-folder">Carpeta de Salida</label>
+                                    <div class="flex items-center">
+                                        <input
+                                            class="form-input flex-grow w-full min-w-0 resize-none rounded-l-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#3c4753] bg-[#1c2126] placeholder:text-text-secondary p-3 text-sm"
+                                            id="output-folder" placeholder="C:\Users\...\Salida" type="text" />
+                                        <button
+                                            class="bg-[#3c4753] hover:bg-[#4a5a6a] text-white p-3 rounded-r-lg text-sm font-semibold">Examinar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card de Credenciales de API -->
+                        <div class="bg-card-dark p-6 rounded-lg">
+                            <h2 class="text-xl font-bold text-white mb-1">Credenciales de API</h2>
+                            <p class="text-text-secondary mb-6">Ingresa tus credenciales para la integración con los
+                                servicios del SENA.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-sm font-medium text-text-light block mb-2" for="api-key">API Key
+                                        de SENA</label>
+                                    <div class="relative">
+                                        <input
+                                            class="form-input w-full resize-none rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#3c4753] bg-[#1c2126] placeholder:text-text-secondary p-3 pr-10 text-sm"
+                                            id="api-key" placeholder="Ingrese su API Key" type="password" />
+                                        <button
+                                            class="absolute inset-y-0 right-0 px-3 flex items-center text-text-secondary hover:text-white">
+                                            <span class="material-symbols-outlined text-sm">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-text-light block mb-2" for="api-secret">API
+                                        Secret</label>
+                                    <div class="relative">
+                                        <input
+                                            class="form-input w-full resize-none rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#3c4753] bg-[#1c2126] placeholder:text-text-secondary p-3 pr-10 text-sm"
+                                            id="api-secret" placeholder="Ingrese su API Secret" type="password" />
+                                        <button
+                                            class="absolute inset-y-0 right-0 px-3 flex items-center text-text-secondary hover:text-white">
+                                            <span class="material-symbols-outlined text-sm">visibility_off</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <!-- Card de Preferencias de Notificación -->
+                        <div class="bg-card-dark p-6 rounded-lg">
+                            <h2 class="text-xl font-bold text-white mb-1">Preferencias de Notificación</h2>
+                            <p class="text-text-secondary mb-6">Elige cómo y cuándo quieres recibir notificaciones.</p>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-text-light" for="desktop-notifications">Notificaciones de
+                                        escritorio</label>
+                                    <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                                        <input checked=""
+                                            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer checked:right-0 checked:bg-primary"
+                                            id="desktop-notifications" type="checkbox" />
+                                        <label
+                                            class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"
+                                            for="desktop-notifications"></label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-text-light" for="email-alerts">Alertas por correo
+                                        electrónico</label>
+                                    <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                                        <input
+                                            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                                            id="email-alerts" type="checkbox" />
+                                        <label
+                                            class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"
+                                            for="email-alerts"></label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-text-light" for="error-notifications">Notificaciones de
+                                        error de proceso</label>
+                                    <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                                        <input checked=""
+                                            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer checked:right-0 checked:bg-primary"
+                                            id="error-notifications" type="checkbox" />
+                                        <label
+                                            class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"
+                                            for="error-notifications"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card de Historial de Cambios -->
+                        <div class="bg-card-dark p-6 rounded-lg flex-grow flex flex-col">
+                            <h2 class="text-xl font-bold text-white mb-4">Historial de Cambios (Logs)</h2>
+                            <div class="bg-[#1c2126] rounded-md p-4 flex-grow h-64 overflow-y-auto">
+                                <div class="font-mono text-xs text-text-secondary space-y-2">
+                                    <p><span class="text-green-400">[2023-10-27 10:30:15]</span> - Ruta de salida
+                                        actualizada a 'C:\Docs\Procesados'.</p>
+                                    <p><span class="text-green-400">[2023-10-27 09:15:45]</span> - Notificaciones de
+                                        escritorio habilitadas.</p>
+                                    <p><span class="text-red-400">[2023-10-26 18:05:22]</span> - Fallo al validar API
+                                        Key.</p>
+                                    <p><span class="text-green-400">[2023-10-26 18:04:10]</span> - API Key actualizada.
+                                    </p>
+                                    <p><span class="text-green-400">[2023-10-26 15:20:00]</span> - Configuración inicial
+                                        guardada.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Botones de Acción -->
+                <div class="mt-8 flex justify-end gap-4">
+                    <button
+                        class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">Restaurar
+                        Predeterminados</button>
+                    <button
+                        class="bg-primary hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:bg-primary/50 disabled:cursor-not-allowed"
+                        disabled="">Guardar Cambios</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <style>
+        .toggle-checkbox:checked {
+            @apply right-0;
+            right: 0;
+        }
+
+        .toggle-checkbox:checked+.toggle-label {
+            @apply bg-primary;
+        }
+    </style>
+</body>
+
+</html>
