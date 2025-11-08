@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="es">
 
 <head>
@@ -24,27 +23,15 @@
                         "text-light": "#E0E0E0",
                         "text-secondary": "#B0B0B0",
                     },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings:
-                'FILL' 0,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 24
-        }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24 }
+        .log-entry { transition: opacity 0.3s ease; }
     </style>
 </head>
 
@@ -53,251 +40,114 @@
         <div class="flex h-full grow flex-row">
             <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
-                        style='background-image: url("assets/logo_sena.png");'>
-                    </div>
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("assets/logo_sena.png");'></div>
                     <div class="flex flex-col">
                         <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
                         <p class="text-text-secondary text-sm font-normal leading-normal">Automatización</p>
                     </div>
                 </div>
                 <nav class="flex flex-col gap-2 flex-grow">
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="dashboard.html">
-                        <span class="material-symbols-outlined">dashboard</span>
-                        <p class="text-sm font-medium leading-normal">Dashboard</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="SGS.html">
-                        <span class="material-symbols-outlined">description</span>
-                        <p class="text-sm font-medium leading-normal">SGS</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="reportesInscritos.html">
-                        <span class="material-symbols-outlined">download</span>
-                        <p class="text-sm font-medium leading-normal">Reportes</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="OCR.html">
-                        <span class="material-symbols-outlined">document_scanner</span>
-                        <p class="text-sm font-medium leading-normal">OCR</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
-                        href="convocarAspirantes.html">
-                        <span class="material-symbols-outlined">group</span>
-                        <p class="text-sm font-medium leading-normal">Aspirantes</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="finMatricula.html">
-                        <span class="material-symbols-outlined">school</span>
-                        <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="Configuracion.html">
-                        <span class="material-symbols-outlined">settings</span>
-                        <p class="text-sm font-medium leading-normal">Configuración</p>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="auto.html">
-                        <span class="material-symbols-outlined">smart_toy</span>
-                        <p class="text-sm font-medium leading-normal">Auto</p>
-                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><p class="text-sm font-medium leading-normal">Dashboard</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="SGS.html"><span class="material-symbols-outlined">description</span><p class="text-sm font-medium leading-normal">SGS</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="reportesInscritos.html"><span class="material-symbols-outlined">download</span><p class="text-sm font-medium leading-normal">Reportes</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="OCR.html"><span class="material-symbols-outlined">document_scanner</span><p class="text-sm font-medium leading-normal">OCR</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30" href="convocarAspirantes.html"><span class="material-symbols-outlined">group</span><p class="text-sm font-medium leading-normal">Aspirantes</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="finMatricula.html"><span class="material-symbols-outlined">school</span><p class="text-sm font-medium leading-normal">Fin Matrícula</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="Configuracion.html"><span class="material-symbols-outlined">settings</span><p class="text-sm font-medium leading-normal">Configuración</p></a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="auto.html"><span class="material-symbols-outlined">smart_toy</span><p class="text-sm font-medium leading-normal">Auto</p></a>
                 </nav>
                 <div class="flex flex-col gap-2 mt-8">
-                    <div class="flex items-center gap-3 px-3 py-2">
-                        <span class="material-symbols-outlined text-text-secondary">account_circle</span>
-                        <p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p>
-                    </div>
-                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined">logout</span>
-                        <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
-                    </a>
+                    <div class="flex items-center gap-3 px-3 py-2"><span class="material-symbols-outlined text-text-secondary">account_circle</span><p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p></div>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">logout</span><p class="text-sm font-medium leading-normal">Cerrar Sesión</p></a>
                 </div>
             </aside>
             <main class="flex-1 p-8">
-                <div class="flex flex-wrap justify-between gap-3 mb-6">
-                    <div class="flex flex-col gap-3">
-                        <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Convocatoria de
-                            Aspirantes</p>
-                        <p class="text-[#9dabb8] text-base font-normal leading-normal">Seleccione los aspirantes que
-                            desea convocar y genere la convocatoria.</p>
+                <div class="flex flex-col gap-3 mb-6">
+                    <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Convocar Aspirantes</p>
+                    <p class="text-[#9dabb8] text-base font-normal leading-normal">Ingrese el número de la ficha para buscar los aspirantes a convocar.</p>
+                </div>
+
+                <div class="bg-[#1c2126] rounded-lg p-6 border border-[#3c4753]">
+                    <div class="flex items-end gap-4">
+                        <div class="flex-grow">
+                            <label for="ficha-input" class="block text-sm font-medium text-text-light mb-2">Número de Ficha</label>
+                            <input type="text" id="ficha-input" class="w-full bg-[#111418] border border-[#3c4753] text-white rounded-lg focus:ring-primary focus:border-primary" placeholder="Ej: 2826917">
+                        </div>
+                        <button id="execute-button" class="flex items-center justify-center rounded-lg h-12 px-6 bg-[#39A900] text-white text-base font-bold hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed">
+                            <span class="material-symbols-outlined mr-2">play_arrow</span>
+                            <span>Ejecutar</span>
+                        </button>
                     </div>
                 </div>
-                <div class="overflow-x-auto rounded-lg border border-[#3c4753] bg-[#111418]">
-                    <table class="w-full text-sm text-left">
-                        <thead class="bg-[#1c2126]">
-                            <tr>
-                                <th class="p-4 w-16" scope="col">
-                                    <input id="select-all-aspirants"
-                                        class="h-5 w-5 rounded border-[#3c4753] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:border-[#3c4753] focus:outline-none"
-                                        type="checkbox" />
-                                </th>
-                                <th class="px-4 py-3 text-white font-medium" scope="col">Nombre Completo</th>
-                                <th class="px-4 py-3 text-white font-medium" scope="col">Número de Identificación</th>
-                                <th class="px-4 py-3 text-white font-medium" scope="col">Programa de Formación</th>
-                                <th class="px-4 py-3 text-white font-medium" scope="col">Puntaje</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-t border-t-[#3c4753]">
-                                <td class="p-4">
-                                    <input
-                                        class="aspirant-checkbox h-5 w-5 rounded border-[#3c4753] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:border-[#3c4753] focus:outline-none"
-                                        type="checkbox" />
-                                </td>
-                                <td class="px-4 py-2 text-white">Juan Perez</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">123456789</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">Desarrollo de Software</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">95</td>
-                            </tr>
-                            <tr class="border-t border-t-[#3c4753]">
-                                <td class="p-4">
-                                    <input
-                                        class="aspirant-checkbox h-5 w-5 rounded border-[#3c4753] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:border-[#3c4753] focus:outline-none"
-                                        type="checkbox" />
-                                </td>
-                                <td class="px-4 py-2 text-white">Maria Rodriguez</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">987654321</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">Diseño Gráfico</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">88</td>
-                            </tr>
-                            <tr class="border-t border-t-[#3c4753]">
-                                <td class="p-4">
-                                    <input
-                                        class="aspirant-checkbox h-5 w-5 rounded border-[#3c4753] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:border-[#3c4753] focus:outline-none"
-                                        type="checkbox" />
-                                </td>
-                                <td class="px-4 py-2 text-white">Carlos Lopez</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">456123789</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">Administración de Empresas</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">92</td>
-                            </tr>
-                            <tr class="border-t border-t-[#3c4753]">
-                                <td class="p-4">
-                                    <input
-                                        class="aspirant-checkbox h-5 w-5 rounded border-[#3c4753] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:border-[#3c4753] focus:outline-none"
-                                        type="checkbox" />
-                                </td>
-                                <td class="px-4 py-2 text-white">Ana Martinez</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">789456123</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">Mercadeo</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">85</td>
-                            </tr>
-                            <tr class="border-t border-t-[#3c4753]">
-                                <td class="p-4">
-                                    <input
-                                        class="aspirant-checkbox h-5 w-5 rounded border-[#3c4753] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:border-[#3c4753] focus:outline-none"
-                                        type="checkbox" />
-                                </td>
-                                <td class="px-4 py-2 text-white">Luis Garcia</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">321654987</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">Ingeniería Industrial</td>
-                                <td class="px-4 py-2 text-[#9dabb8]">90</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex justify-end mt-6">
-                    <button id="generate-convocation-button"
-                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#39A900] text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-green-700">
-                        <span class="truncate">Generar Convocatoria</span>
-                    </button>
-                </div>
+
                 <div class="mt-6">
-                    <p class="text-white text-lg font-semibold mb-2">Log del Proceso</p>
-                    <div id="process-log" class="bg-[#1c2126] rounded-lg p-4 h-48 overflow-y-auto text-sm font-mono">
-                        <p class="text-gray-400">Iniciando proceso de convocatoria...</p>
-                        <p class="text-green-400">[SUCCESS] Convocando a Juan Perez...</p>
-                        <p class="text-red-400">[ERROR] Error al procesar el archivo para Carlos Lopez.</p>
-                        <p class="text-green-400">[SUCCESS] Convocando a Luis Garcia...</p>
-                        <p class="text-gray-400">Proceso completado.</p>
+                    <p class="text-white text-lg font-semibold mb-2">Registro de Actividad</p>
+                    <div id="log-container" class="bg-[#1c2126] rounded-lg p-4 h-96 overflow-y-auto text-sm font-mono border border-[#3c4753]">
+                        <p class="text-gray-500">El registro del proceso aparecerá aquí...</p>
                     </div>
                 </div>
             </main>
         </div>
     </div>
-    <style>
-        :root {
-            --checkbox-tick-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e');
-        }
-    </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const selectAllCheckbox = document.getElementById('select-all-aspirants');
-            const aspirantCheckboxes = document.querySelectorAll('.aspirant-checkbox');
-            const generateButton = document.getElementById('generate-convocation-button');
-            const processLog = document.getElementById('process-log');
+            const fichaInput = document.getElementById('ficha-input');
+            const executeButton = document.getElementById('execute-button');
+            const logContainer = document.getElementById('log-container');
 
-            function updateButtonState() {
-                const anySelected = Array.from(aspirantCheckboxes).some(cb => cb.checked);
-                generateButton.disabled = !anySelected;
-                if (anySelected) {
-                    generateButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    generateButton.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-            }
+            const addLog = (message, type = 'info') => {
+                const p = document.createElement('p');
+                p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                
+                const colors = {
+                    info: 'text-gray-400',
+                    success: 'text-green-400',
+                    error: 'text-red-400',
+                    warn: 'text-yellow-400'
+                };
+                p.className = `${colors[type] || colors.info} log-entry`;
+                
+                logContainer.appendChild(p);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            };
 
-            selectAllCheckbox.addEventListener('change', (e) => {
-                aspirantCheckboxes.forEach(checkbox => {
-                    checkbox.checked = e.target.checked;
-                });
-                updateButtonState();
-            });
-
-            aspirantCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    if (!checkbox.checked) {
-                        selectAllCheckbox.checked = false;
-                    } else {
-                        const allSelected = Array.from(aspirantCheckboxes).every(cb => cb.checked);
-                        selectAllCheckbox.checked = allSelected;
-                    }
-                    updateButtonState();
-                });
-            });
-
-            generateButton.addEventListener('click', () => {
-                const selectedAspirants = Array.from(aspirantCheckboxes)
-                    .filter(cb => cb.checked)
-                    .map(cb => {
-                        const row = cb.closest('tr');
-                        const name = row.querySelector('td:nth-child(2)').textContent;
-                        return { name };
-                    });
-
-                if (selectedAspirants.length === 0) {
+            executeButton.addEventListener('click', async () => {
+                const ficha = fichaInput.value.trim();
+                if (!ficha) {
+                    addLog('Por favor, ingrese un número de ficha.', 'error');
                     return;
                 }
 
-                processLog.innerHTML = '<p class="text-gray-400">Iniciando proceso de convocatoria...</p>';
+                executeButton.disabled = true;
+                executeButton.querySelector('span:last-child').textContent = 'Ejecutando...';
+                logContainer.innerHTML = '';
+                addLog(`Iniciando proceso para la ficha: ${ficha}`, 'info');
 
-                selectedAspirants.forEach((aspirant, index) => {
-                    setTimeout(() => {
-                        const successMessage = document.createElement('p');
-                        successMessage.className = 'text-green-400';
-                        successMessage.textContent = `[SUCCESS] Convocando a ${aspirant.name}...`;
-                        processLog.appendChild(successMessage);
-                        processLog.scrollTop = processLog.scrollHeight; 
-                        
-                        if(index === selectedAspirants.length - 1) {
-                             setTimeout(() => {
-                                const completedMessage = document.createElement('p');
-                                completedMessage.className = 'text-gray-400';
-                                completedMessage.textContent = 'Proceso completado.';
-                                processLog.appendChild(completedMessage);
-                                processLog.scrollTop = processLog.scrollHeight;
-                            }, 500);
-                        }
-                    }, (index + 1) * 1000);
-                });
+                try {
+                    const result = await window.api.aspirantesExecute(ficha);
+                    if (result.success) {
+                        addLog('✅ Proceso finalizado con éxito.', 'success');
+                        addLog(`Resultado: ${result.message}`, 'success');
+                    } else {
+                        addLog(`❌ Error en el proceso: ${result.error || 'Error desconocido'}`, 'error');
+                    }
+                } catch (error) {
+                    addLog(`❌ Error de comunicación con el backend: ${error.message}`, 'error');
+                } finally {
+                    executeButton.disabled = false;
+                    executeButton.querySelector('span:last-child').textContent = 'Ejecutar';
+                }
             });
 
-            // Initial state
-            updateButtonState();
+            // Escuchar los logs enviados desde el backend
+            window.api.onAspirantesLog((message) => {
+                let logType = 'info';
+                if (message.includes('✅') || message.includes('SUCCESS')) logType = 'success';
+                if (message.includes('❌') || message.includes('ERROR')) logType = 'error';
+                if (message.includes('🟡') || message.includes('WARN')) logType = 'warn';
+                addLog(message, logType);
+            });
         });
     </script>
 </body>
-
 </html>

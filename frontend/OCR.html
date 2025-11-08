@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>SENA - OCR Document Comparison</title>
+    <title>SENA - Proceso de OCR por Pasos</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     <style>
         .material-symbols-outlined {
             font-variation-settings:
-                'FILL' 0,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 24
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
         }
     </style>
     <script>
@@ -25,329 +23,443 @@
                 extend: {
                     colors: {
                         "primary": "#39A900",
-                        "background-light": "#f6f7f8",
                         "background-dark": "#1E1E1E",
                         "sidebar-dark": "#252526",
+                        "card-dark": "#2D2D2D",
+                        "text-light": "#E0E0E0",
+                        "text-secondary": "#B0B0B0",
                     },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
                 },
             },
         }
     </script>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-white">
+<body class="bg-background-dark font-display text-text-light">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
+        <aside class="w-64 bg-sidebar-dark flex flex-col p-4 shrink-0">
             <div class="flex items-center gap-3 mb-8">
-                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
-                    style='background-image: url("assets/logo_sena.png");'>
-                </div>
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("assets/logo_sena.png");'></div>
                 <div class="flex flex-col">
-                    <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
-                    <p class="text-text-secondary text-sm font-normal leading-normal">Automatización</p>
+                    <h1 class="text-white text-base font-bold">SENA</h1>
+                    <p class="text-text-secondary text-sm">Automatización</p>
                 </div>
             </div>
             <nav class="flex flex-col gap-2 flex-grow">
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="dashboard.html">
-                    <span class="material-symbols-outlined">dashboard</span>
-                    <p class="text-sm font-medium leading-normal">Dashboard</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span>
+                    <p>Dashboard</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="SGS.html">
-                    <span class="material-symbols-outlined">description</span>
-                    <p class="text-sm font-medium leading-normal">SGS</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="SGS.html"><span class="material-symbols-outlined">description</span>
+                    <p>SGS</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="reportesInscritos.html">
-                    <span class="material-symbols-outlined">download</span>
-                    <p class="text-sm font-medium leading-normal">Reportes</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="reportesInscritos.html"><span class="material-symbols-outlined">download</span>
+                    <p>Reportes</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
-                    href="OCR.html">
-                    <span class="material-symbols-outlined">document_scanner</span>
-                    <p class="text-sm font-medium leading-normal">OCR</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors" href="OCR.html"><span class="material-symbols-outlined">document_scanner</span>
+                    <p>OCR</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="convocarAspirantes.html">
-                    <span class="material-symbols-outlined">group</span>
-                    <p class="text-sm font-medium leading-normal">Aspirantes</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="convocarAspirantes.html"><span class="material-symbols-outlined">group</span>
+                    <p>Aspirantes</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="finMatricula.html">
-                    <span class="material-symbols-outlined">school</span>
-                    <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="finMatricula.html"><span class="material-symbols-outlined">school</span>
+                    <p>Fin Matrícula</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="Configuracion.html">
-                    <span class="material-symbols-outlined">settings</span>
-                    <p class="text-sm font-medium leading-normal">Configuración</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="Configuracion.html"><span class="material-symbols-outlined">settings</span>
+                    <p>Configuración</p>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="auto.html">
-                    <span class="material-symbols-outlined">smart_toy</span>
-                    <p class="text-sm font-medium leading-normal">Auto</p>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="auto.html"><span class="material-symbols-outlined">smart_toy</span>
+                    <p>Auto</p>
                 </a>
             </nav>
-            <div class="flex flex-col gap-2 mt-8">
-                <div class="flex items-center gap-3 px-3 py-2">
-                    <span class="material-symbols-outlined text-text-secondary">account_circle</span>
-                    <p class="text-text-light text-sm font-medium leading-normal">Nombre Apellido</p>
-                </div>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                    href="#">
-                    <span class="material-symbols-outlined">logout</span>
-                    <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
-                </a>
-            </div>
         </aside>
+
         <!-- Main Content -->
         <main class="flex-1 p-8">
             <header class="mb-8">
-                <h1 class="text-4xl font-black tracking-[-0.033em]">Comparación de Documentos con OCR</h1>
+                <h1 class="text-4xl font-black tracking-[-0.033em]">Proceso de OCR por Pasos</h1>
+                <p class="text-text-secondary mt-2">Sigue los pasos para convertir un PDF, limpiar las imágenes y procesarlas con OCR.</p>
             </header>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Left Column: File Upload and Selection -->
+                <!-- Columna de Controles -->
                 <div class="flex flex-col gap-6">
-                    <div>
-                        <p class="text-gray-300 text-base font-normal leading-normal pb-3 pt-1">Arrastra y suelta tus
-                            archivos PDF aquí o haz clic para seleccionarlos.</p>
-                        <div id="drop-zone"
-                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-gray-600 px-6 py-14 bg-gray-800/30">
-                            <div class="flex max-w-[480px] flex-col items-center gap-2 text-center">
-                                <p class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Subir Archivos
-                                </p>
-                                <p class="text-gray-400 text-sm font-normal leading-normal">Puedes subir hasta 5
-                                    archivos PDF con documentos de identidad.</p>
-                            </div>
-                            <button id="select-files-button"
-                                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-700 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-600">
-                                <span class="truncate">Seleccionar Archivos</span>
-                            </button>
+                    <!-- Paso 0: Selección de Archivo -->
+                    <div class="bg-card-dark p-6 rounded-lg">
+                        <h2 class="text-xl font-bold mb-3">Paso 0: Seleccionar PDF</h2>
+                        <div id="drop-zone" class="flex flex-col items-center gap-4 rounded-lg border-2 border-dashed border-gray-600 p-8 bg-gray-800/30">
+                            <p class="text-center">Arrastra y suelta tu archivo PDF aquí o haz clic para seleccionarlo.</p>
+                            <button id="select-pdf-button" class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 font-bold">Seleccionar Archivo</button>
                         </div>
+                        <p id="selected-file-label" class="mt-3 text-center text-text-secondary">Ningún archivo seleccionado.</p>
                     </div>
-                    <div class="flex flex-col gap-2">
-                        <h2 class="text-lg font-bold text-white">Archivos Cargados</h2>
-                        <div id="uploaded-files-container" class="bg-gray-800/30 rounded-lg p-4">
-                            <label class="flex items-center gap-x-3 py-3 border-b border-gray-700">
-                                <input checked=""
-                                    class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
-                                    type="checkbox" />
-                                <p class="text-white text-base font-normal leading-normal flex-1">
-                                    Documento_Identidad_Juan_Perez.pdf</p>
-                                <button class="text-gray-400 hover:text-white"><span
-                                        class="material-symbols-outlined">visibility</span></button>
-                                <button class="text-gray-400 hover:text-red-500"><span
-                                        class="material-symbols-outlined">delete</span></button>
-                            </label>
-                            <label class="flex items-center gap-x-3 py-3 border-b border-gray-700">
-                                <input checked=""
-                                    class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
-                                    type="checkbox" />
-                                <p class="text-white text-base font-normal leading-normal flex-1">
-                                    Cedula_Maria_Rodriguez.pdf</p>
-                                <button class="text-gray-400 hover:text-white"><span
-                                        class="material-symbols-outlined">visibility</span></button>
-                                <button class="text-gray-400 hover:text-red-500"><span
-                                        class="material-symbols-outlined">delete</span></button>
-                            </label>
-                            <label class="flex items-center gap-x-3 py-3">
-                                <input
-                                    class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
-                                    type="checkbox" />
-                                <p class="text-white text-base font-normal leading-normal flex-1">ID_Carlos_Gomez.pdf
-                                </p>
-                                <button class="text-gray-400 hover:text-white"><span
-                                        class="material-symbols-outlined">visibility</span></button>
-                                <button class="text-gray-400 hover:text-red-500"><span
-                                        class="material-symbols-outlined">delete</span></button>
-                            </label>
+
+                    <!-- Pasos del Proceso -->
+                    <div class="bg-card-dark p-6 rounded-lg flex flex-col gap-4">
+                        <h2 class="text-xl font-bold mb-2">Pasos del Proceso</h2>
+                        <button id="step1-convert-button" class="w-full flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-blue-600 text-white font-bold hover:bg-blue-500 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                            <span class="material-symbols-outlined">photo_library</span>
+                            <span>Paso 1: Convertir PDF a Imágenes</span>
+                        </button>
+
+                        <!-- Sección para mostrar las imágenes -->
+                        <div id="image-selection-container" class="flex flex-wrap gap-4"></div>
+
+                         <!-- Mensaje de estado intermedio -->
+                        <p id="image-processing-message" class="mt-3 text-center text-text-secondary hidden">Convirtiendo PDF a imágenes y resecuenciando, por favor espere...</p>
+
+                        <button id="step2-delete-images-button" class="w-full flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-red-600 text-white font-bold hover:bg-red-500 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                            <span class="material-symbols-outlined">delete</span>
+                            <span>Paso 2: Eliminar Imágenes Seleccionadas</span>
+                        </button>
+                        <button id="step3-process-button" class="w-full flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-primary text-white font-bold hover:bg-green-600 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                            <span class="material-symbols-outlined">sync</span>
+                            <span>Paso 3: Procesar con OCR</span>
+                        </button>
+
+                         <!-- Selección de archivo Excel -->
+                        <div class="flex flex-col gap-2">
+                            <label for="excel-input" class="text-sm font-medium">Seleccionar Archivo Excel:</label>
+                            <input type="file" id="excel-input" class="px-4 py-2 rounded-lg bg-gray-700 text-white" accept=".xlsx,.xls" />
+                            <p id="selected-excel-label" class="mt-1 text-sm text-text-secondary">Ningún archivo seleccionado.</p>
+                            <p id="suggested-excel-label" class="mt-1 text-sm text-text-secondary">Sugerencia: Ninguno.</p>
                         </div>
+
+
                     </div>
-                    <button id="process-ocr-button"
-                        class="w-full flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-primary text-white text-base font-bold hover:bg-green-600 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
-                        <span class="material-symbols-outlined">sync</span>
-                        <span>Procesar con OCR</span>
-                    </button>
                 </div>
-                <!-- Right Column: OCR Results -->
+
+                <!-- Columna de Logs y Resultados -->
                 <div class="flex flex-col gap-6">
-                    <h2 class="text-lg font-bold text-white">Resultados del Procesamiento</h2>
-                    <div class="bg-gray-800/30 rounded-lg overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-300">
-                                <thead class="text-xs text-white uppercase bg-gray-700/50">
-                                    <tr>
-                                        <th class="px-6 py-3" scope="col">Archivo de Origen</th>
-                                        <th class="px-6 py-3" scope="col">Información Extraída</th>
-                                        <th class="px-6 py-3" scope="col">Estado</th>
-                                        <th class="px-6 py-3" scope="col">Similitud</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b border-gray-700">
-                                        <td class="px-6 py-4 font-medium text-white">Documento_Identidad_Juan_Perez.pdf
-                                        </td>
-                                        <td class="px-6 py-4">Nombre: Juan Perez<br />C.C: 123.456.789</td>
-                                        <td class="px-6 py-4">
-                                            <span class="flex items-center gap-2 text-green-400">
-                                                <span class="material-symbols-outlined text-base">check_circle</span>
-                                                Exitoso
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 font-bold text-white">98%</td>
-                                    </tr>
-                                    <tr class="border-b border-gray-700">
-                                        <td class="px-6 py-4 font-medium text-white">Cedula_Maria_Rodriguez.pdf</td>
-                                        <td class="px-6 py-4">Nombre: Maria Rodriguez<br />C.C: 987.654.321</td>
-                                        <td class="px-6 py-4">
-                                            <span class="flex items-center gap-2 text-green-400">
-                                                <span class="material-symbols-outlined text-base">check_circle</span>
-                                                Exitoso
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 font-bold text-white">95%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center py-10" colspan="4">
-                                            <div class="flex flex-col items-center justify-center gap-2 text-gray-500">
-                                                <div
-                                                    class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary">
-                                                </div>
-                                                <p>Procesando ID_Carlos_Gomez.pdf...</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="opacity-50">
-                                        <td class="px-6 py-4 font-medium text-white">ID_Carlos_Gomez.pdf</td>
-                                        <td class="px-6 py-4">-</td>
-                                        <td class="px-6 py-4">
-                                            <span class="flex items-center gap-2 text-yellow-400">
-                                                <span class="material-symbols-outlined text-base">pending</span>
-                                                Pendiente
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 font-bold text-white">-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3 rounded-lg bg-red-900/50 p-4" role="alert">
-                        <span class="material-symbols-outlined text-red-400">error</span>
-                        <div>
-                            <p class="font-bold text-red-300">Error de Procesamiento</p>
-                            <p class="text-sm text-red-300/80">No se pudo conectar con el script de OCR. Por favor,
-                                verifique que el servicio esté en ejecución.</p>
-                        </div>
+                    <div class="bg-card-dark p-6 rounded-lg h-[40rem] flex flex-col">
+                        <h2 class="text-xl font-bold mb-3">Registro de Actividad</h2>
+                        <div id="log-container" class="flex-grow bg-black/30 rounded-lg p-4 overflow-y-auto text-sm font-mono text-gray-400"></div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <input type="file" id="file-input" class="hidden" multiple accept=".pdf" />
+    <input type="file" id="file-input" class="hidden" accept=".pdf" />
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Elementos de la UI ---
             const dropZone = document.getElementById('drop-zone');
-            const selectFilesButton = document.getElementById('select-files-button');
+            const selectPdfButton = document.getElementById('select-pdf-button');
             const fileInput = document.getElementById('file-input');
-            const uploadedFilesContainer = document.getElementById('uploaded-files-container');
-            const processOcrButton = document.getElementById('process-ocr-button');
-            const originalFileListHTML = uploadedFilesContainer.innerHTML; // Save the initial state
+            const selectedFileLabel = document.getElementById('selected-file-label');
+            const step1Button = document.getElementById('step1-convert-button');
+            const step2Button = document.getElementById('step2-delete-images-button');
+            const step3Button = document.getElementById('step3-process-button');
+            const logContainer = document.getElementById('log-container');
+            const imageSelectionContainer = document.getElementById('image-selection-container');
+            const imageProcessingMessage = document.getElementById('image-processing-message');
+            const excelInput = document.getElementById('excel-input');
+            const selectedExcelLabel = document.getElementById('selected-excel-label');
+            const suggestedExcelLabel = document.getElementById('suggested-excel-label');
 
-            let selectedFiles = [];
+            // --- Estado de la Aplicación ---
+            let selectedPdfPath = null;
+            let imageFolderPath = null;
+            let step1_done = false;
+            let step2_done = false;
+            let selectedExcelPath = null;
 
-            // Function to trigger file input
-            selectFilesButton.addEventListener('click', () => {
-                fileInput.click();
-            });
+            // --- Funciones de Lógica ---
+            const addLog = (message, type = 'info') => {
+                const p = document.createElement('p');
+                const timestamp = new Date().toLocaleTimeString();
+                p.innerHTML = `<span>[${timestamp}]</span> <span class="ml-2">${message}</span>`;
+                const colors = { info: 'text-gray-400', success: 'text-green-400', error: 'text-red-400', warn: 'text-yellow-400' };
+                p.className = colors[type] || colors.info;
+                logContainer.appendChild(p);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            };
 
-            // Handle file selection from input
-            fileInput.addEventListener('change', (e) => {
-                handleFiles(e.target.files);
-            });
+            const updateButtonStates = () => {
+                step1Button.disabled = !selectedPdfPath;
+                step2Button.disabled = !step1_done;
+                step3Button.disabled = !step1_done;
+            };
 
-            // Drag and drop events
+            const handleFileSelection = (file) => {
+                if (file && file.type === 'application/pdf') {
+                    selectedPdfPath = file.path;
+                    selectedFileLabel.textContent = `Archivo seleccionado: ${file.name}`;
+                    addLog(`Archivo PDF seleccionado: ${file.name}`, 'info');
+                    step1_done = false;
+                    step2_done = false;
+                    imageFolderPath = null;
+                    imageSelectionContainer.innerHTML = ''; // Clear previous images
+                } else {
+                    addLog('Por favor, selecciona un archivo PDF válido.', 'error');
+                    selectedPdfPath = null;
+                    selectedFileLabel.textContent = 'Ningún archivo seleccionado.';
+                }
+                updateButtonStates();
+            };
+
+            const imageToBase64 = (imagePath) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        const dataURL = canvas.toDataURL('image/jpeg');
+                        resolve(dataURL);
+                    };
+
+                    img.onerror = (error) => {
+                        reject(error);
+                    };
+                    img.src = imagePath;
+                });
+            };
+
+             // Función para manejar la selección del archivo Excel
+            const handleExcelSelection = (file) => {
+                if (file && (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+                    selectedExcelPath = file.path;
+                    selectedExcelLabel.textContent = `Archivo Excel seleccionado: ${file.name}`;
+                    addLog(`Archivo Excel seleccionado: ${file.name}`, 'info');
+                } else {
+                    addLog('Por favor, selecciona un archivo Excel válido.', 'error');
+                    selectedExcelPath = null;
+                    selectedExcelLabel.textContent = 'Ningún archivo seleccionado.';
+                }
+            };
+
+            // --- Event Listeners de la UI ---
+            selectPdfButton.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', (e) => handleFileSelection(e.target.files[0]));
+
             dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                dropZone.classList.add('border-primary', 'bg-gray-700/50');
+                dropZone.classList.add('border-primary');
             });
-
-            dropZone.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('border-primary', 'bg-gray-700/50');
-            });
-
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-primary'));
             dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
-                dropZone.classList.remove('border-primary', 'bg-gray-700/50');
-                handleFiles(e.dataTransfer.files);
+                dropZone.classList.remove('border-primary');
+                handleFileSelection(e.dataTransfer.files[0]);
             });
 
-            // Central file handling function
-            function handleFiles(files) {
-                const newFiles = Array.from(files).filter(file => file.type === 'application/pdf');
-                if (newFiles.length === 0) {
-                    alert('Por favor, selecciona solo archivos PDF.');
-                    return;
-                }
-                
-                // You might want to add logic to limit to 5 files total
-                selectedFiles.push(...newFiles);
-                updateFileList();
-            }
+            // Listener para el input de Excel
+            excelInput.addEventListener('change', (e) => handleExcelSelection(e.target.files[0]));
 
-            // Update UI with selected files
-            function updateFileList() {
-                if (selectedFiles.length === 0) {
-                    uploadedFilesContainer.innerHTML = originalFileListHTML;
-                    processOcrButton.disabled = true;
-                    return;
-                }
+            // --- Lógica de los Pasos ---
 
-                uploadedFilesContainer.innerHTML = ''; // Clear the list
-                selectedFiles.forEach((file, index) => {
-                    const fileItemHTML = `
-                        <label class="flex items-center gap-x-3 py-3 ${index < selectedFiles.length - 1 ? 'border-b border-gray-700' : ''}">
-                            <input checked=""
-                                class="h-5 w-5 rounded border-gray-500 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0"
-                                type="checkbox" />
-                            <p class="text-white text-base font-normal leading-normal flex-1 truncate" title="${file.name}">
-                                ${file.name}
-                            </p>
-                            <button class="text-gray-400 hover:text-white" onclick="alert('Función de visibilidad no implementada.')">
-                                <span class="material-symbols-outlined">visibility</span>
-                            </button>
-                            <button class="text-gray-400 hover:text-red-500" data-index="${index}" onclick="removeFile(event)">
-                                <span class="material-symbols-outlined">delete</span>
-                            </button>
-                        </label>
-                    `;
-                    uploadedFilesContainer.innerHTML += fileItemHTML;
+            // PASO 1: Convertir PDF a Imágenes
+            step1Button.addEventListener('click', async () => {
+                if (!selectedPdfPath) return;
+                addLog('Iniciando Paso 1: Conversión de PDF a imágenes...', 'warn');
+                step1Button.disabled = true;
+                imageSelectionContainer.innerHTML = ''; // Clear previous images
+                imageProcessingMessage.classList.remove('hidden'); // Show the processing message
+
+                try {
+                    const result = await window.api.ocrExecute({ action: 'convert', pdfPath: selectedPdfPath });
+                    if (result.success) {
+                        step1_done = true;
+                        imageFolderPath = result.image_folder;
+                        addLog(`Paso 1 completado: ${result.message}`, 'success');
+
+                        // Display images with checkboxes
+                        for (const imagePath of result.image_paths) {
+                            try {
+                                const base64Image = await imageToBase64(imagePath);
+
+                                const imageDiv = document.createElement('div');
+                                imageDiv.classList.add('flex', 'flex-col', 'items-center');
+                                imageDiv.setAttribute('data-image-path', imagePath);
+
+                                const img = document.createElement('img');
+                                img.src = base64Image;
+                                img.classList.add('max-w-[100px]', 'max-h-[100px]');
+
+                                const checkbox = document.createElement('input');
+                                checkbox.type = 'checkbox';
+                                checkbox.value = imagePath;
+                                checkbox.checked = true; // Initially select all images
+
+                                imageDiv.appendChild(img);
+                                imageDiv.appendChild(checkbox);
+                                imageSelectionContainer.appendChild(imageDiv);
+                            } catch (error) {
+                                addLog(`Error al cargar la imagen ${imagePath}: ${error}`, 'error');
+                            }
+                        }
+
+                        addLog('Ahora puedes seleccionar las imágenes que deseas procesar.', 'info');
+                        step3Button.disabled = false;
+                        step2Button.disabled = false;
+                        imageProcessingMessage.classList.add('hidden');
+
+                    } else {
+                        addLog(`Error en el Paso 1: ${result.error}`, 'error');
+                        step1_done = false;
+                        step3Button.disabled = true;
+                        step2Button.disabled = false;
+                        imageProcessingMessage.classList.add('hidden');
+                    }
+                } catch (error) {
+                    addLog(`Error de comunicación en Paso 1: ${error.message}`, 'error');
+                    step1_done = false;
+                    step3Button.disabled = true;
+                    step2Button.disabled = false;
+                    imageProcessingMessage.classList.add('hidden');
+                } finally {
+                    updateButtonStates();
+                }
+            });
+
+            // PASO 2: Eliminar Imágenes Seleccionadas
+            step2Button.addEventListener('click', async () => {
+                addLog('Iniciando Paso 2: Eliminando imágenes seleccionadas...', 'warn');
+
+                // Collect unselected image paths - the ones to delete from UI
+                const unselectedImagePaths = Array.from(imageSelectionContainer.querySelectorAll('input[type="checkbox"]:not(:checked)')).map(checkbox => checkbox.value);
+
+                // Remove images from the UI
+                unselectedImagePaths.forEach(imagePath => {
+                    const imageDiv = imageSelectionContainer.querySelector(`div[data-image-path="${imagePath}"]`);
+                    if (imageDiv) {
+                        imageDiv.remove();
+                        addLog(`Imagen eliminada de la UI: ${imagePath}`, 'info');
+                    }
                 });
 
-                processOcrButton.disabled = false;
+                addLog('Paso 2 completado: Imágenes no deseadas eliminadas de la selección.', 'success');
+
+                // Send unselected image paths to the backend for deletion
+                try {
+                    const result = await window.api.deleteOcrImages({ imagePaths: unselectedImagePaths });
+                    if (result.success) {
+                        addLog(result.message, 'success');
+                    } else {
+                        addLog(`Error al eliminar imágenes del backend: ${result.error}`, 'error');
+                    }
+                } catch (error) {
+                    addLog(`Error de comunicación al eliminar imágenes del backend: ${error.message}`, 'error');
+                }
+
+                // Update button states - re-enable step 3 if any images remain
+                updateButtonStates();
+                if (imageSelectionContainer.querySelectorAll('input[type="checkbox"]').length > 0) {
+                    step3Button.disabled = false;
+                } else {
+                    step3Button.disabled = true;
+                }
+
+                step2_done = true;
+
+            });
+
+            // PASO 3: Procesar con OCR
+            step3Button.addEventListener('click', async () => {
+                if (!step1_done) return;
+                addLog('Iniciando Paso 3: Procesando imágenes con OCR...', 'warn');
+                step3Button.disabled = true;
+
+                try {
+                    // Collect selected image paths - the ones to send to the API
+                    const selectedImagePaths = Array.from(imageSelectionContainer.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+                    const data = { action: 'process', pdfPath: selectedPdfPath, selectedImagePaths: selectedImagePaths, comparisonExcelPath: selectedExcelPath };
+                    const result = await window.api.ocrExecute(data);
+
+                    if (result.success) {
+                        addLog('Paso 3 completado: Proceso de OCR finalizado.', 'success');
+                        // Mostrar resultados
+                        result.data.forEach(item => {
+                            if (item.success) {
+                                addLog(`- ${item.file}: OK -> ${JSON.stringify(item.data)}`, 'success');
+                            } else {
+                                addLog(`- ${item.file}: ERROR -> ${item.error}`, 'error');
+                            }
+                        });
+                    } else {
+                        addLog(`Error en el Paso 3: ${result.error}`, 'error');
+                    }
+                } catch (error) {
+                    addLog(`Error de comunicación en Paso 3: ${error.message}`, 'error');
+                } finally {
+                    step3Button.disabled = false; // Opcional: permitir re-procesar
+                }
+            });
+
+            // --- Escuchar Logs del Backend ---
+            window.api.onOcrLog((message) => {
+                addLog(message, 'info');
+            });
+
+             // Function to apply 'active' class based on the current page
+            function setActiveLink() {
+                const path = window.location.pathname;
+                const links = document.querySelectorAll('aside a');
+
+                links.forEach(link => {
+                    const linkPath = new URL(link.href).pathname;
+                    if (path === linkPath) {
+                        link.classList.add('bg-primary/20', 'text-primary');
+                        link.classList.remove('text-text-secondary', 'hover:bg-white/10', 'hover:text-white');
+                    } else {
+                        link.classList.remove('bg-primary/20', 'text-primary');
+                        link.classList.add('text-text-secondary', 'hover:bg-white/10', 'hover:text-white');
+                    }
+                });
             }
-            
-            // Function to remove a file
-            window.removeFile = (event) => {
-                const button = event.currentTarget;
-                const index = parseInt(button.dataset.index, 10);
-                selectedFiles.splice(index, 1);
-                updateFileList();
+
+             // Call setActiveLink when the page loads
+            setActiveLink();
+
+            // Function to suggest the most recent report
+            async function suggestMostRecentReport() {
+                try {
+                    addLog('Buscando el reporte de inscritos más reciente...', 'info');
+                    const result = await window.api.getMostRecentReport();
+
+                    if (result.success && result.report_path) {
+                        const reportPath = result.report_path;
+                        const reportName = reportPath.replace(/^.*[\\\/]/, '');
+
+                        suggestedExcelLabel.innerHTML = `Sugerencia: <button id="select-suggested-button" class="text-blue-400 hover:underline">${reportName}</button>`;
+                        addLog(`Reporte sugerido encontrado: ${reportName}`, 'info');
+
+                        document.getElementById('select-suggested-button').addEventListener('click', () => {
+                            // Crear un objeto File simulado para que handleExcelSelection funcione
+                            const mockFile = { 
+                                path: reportPath, 
+                                name: reportName,
+                                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // o 'application/vnd.ms-excel'
+                            };
+                            handleExcelSelection(mockFile);
+                        });
+
+                    } else {
+                        suggestedExcelLabel.textContent = `Sugerencia: Ninguno`;
+                        if (result.error) {
+                            addLog(`No se encontró reporte sugerido: ${result.error}`, 'warn');
+                        }
+                    }
+                } catch (error) {
+                    addLog(`Error de comunicación al obtener el reporte más reciente: ${error.message}`, 'warn');
+                    suggestedExcelLabel.textContent = `Sugerencia: Ninguno`;
+                }
             }
+
+            // Call the suggestMostRecentReport function when the page loads
+            suggestMostRecentReport();
+
+            // --- Estado Inicial ---
+            addLog('Bienvenido. Por favor, selecciona un archivo PDF para comenzar.');
+            updateButtonStates();
         });
     </script>
 </body>

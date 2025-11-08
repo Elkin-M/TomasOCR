@@ -216,6 +216,72 @@
             </div>
         </main>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fichaInput = document.querySelector('input[placeholder="Ej: 2618239"]');
+            const downloadButton = document.querySelector('button .truncate').parentElement;
+            const tbody = document.querySelector('tbody');
+
+            // Escuchar eventos de log
+            window.api.onSGSLog((message) => {
+                console.log('Log:', message);
+                // Aquí puedes actualizar la UI para mostrar los logs en el futuro
+            });
+
+            downloadButton.addEventListener('click', async () => {
+                const ficha = fichaInput.value.trim();
+                if (!ficha) {
+                    alert('Por favor, ingrese un número de ficha.');
+                    fichaInput.focus();
+                    return;
+                }
+
+                const originalButtonHTML = downloadButton.innerHTML;
+                downloadButton.disabled = true;
+                downloadButton.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span><span class="truncate">Procesando...</span>';
+
+                try {
+                    const result = await window.api.sgsExecute(ficha);
+                    const now = new Date();
+                    const formattedDate = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+
+                    const statusClass = result.success ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400';
+                    const statusText = result.success ? (result.estado || 'Completada') : 'Fallida';
+
+                    const newRow = `
+                        <tr class="border-b border-[#3c4753]">
+                            <td class="p-4 text-white">${ficha}</td>
+                            <td class="p-4 text-[#9dabb8]">${formattedDate}</td>
+                            <td class="p-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass}">
+                                    ${statusText}
+                                </span>
+                            </td>
+                            <td class="p-4">
+                                <button class="text-primary hover:text-opacity-80" title="Esta es una acción de demostración">
+                                    <span class="material-symbols-outlined">downloading</span>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('afterbegin', newRow);
+
+                    if (!result.success) {
+                        console.error('Error en el script de Python:', result.error);
+                        alert(`Ocurrió un error durante el proceso: ${result.error}`);
+                    }
+
+                } catch (error) {
+                    console.error('Error en la comunicación con el proceso principal:', error);
+                    alert(`Ocurrió un error inesperado: ${error.message}`);
+                } finally {
+                    downloadButton.disabled = false;
+                    downloadButton.innerHTML = originalButtonHTML;
+                    fichaInput.value = '';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

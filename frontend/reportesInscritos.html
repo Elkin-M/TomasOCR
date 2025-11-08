@@ -53,8 +53,8 @@
         <div class="flex h-full grow">
             <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Logo del SENA"
-                        style='background-image: url("assets/logo_sena.png");'>
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                        data-alt="Logo del SENA" style='background-image: url("assets/logo_sena.png");'>
                     </div>
                     <div class="flex flex-col">
                         <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
@@ -140,7 +140,8 @@
                         <div class="flex flex-col">
                             <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Registro de
                                 Actividad</h3>
-                            <div id="activity-log" class="bg-[#1c2126] rounded-lg p-4 h-96 overflow-y-auto border border-[#3c4753]">
+                            <div id="activity-log"
+                                class="bg-[#1c2126] rounded-lg p-4 h-96 overflow-y-auto border border-[#3c4753]">
                                 <p class="text-[#888888] font-mono text-sm">[10:30:01] Esperando ejecución para mostrar
                                     el registro de actividad...</p>
                                 <p class="text-[#888888] font-mono text-sm">[10:30:15] <span
@@ -210,74 +211,75 @@
             const resultsTableBody = document.getElementById('results-table-body');
             const resultsPlaceholder = document.getElementById('results-placeholder');
 
-            const sampleData = [
-                { name: 'Ana María García', doc: '1023456789', status: 'Inscrito', email: 'ana.garcia@example.com', statusColor: 'text-green-400' },
-                { name: 'Carlos José Rodriguez', doc: '1098765432', status: 'Inscrito', email: 'carlos.rodriguez@example.com', statusColor: 'text-green-400' },
-                { name: 'Luisa Fernanda Perez', doc: '1012345678', status: 'En Proceso', email: 'luisa.perez@example.com', statusColor: 'text-orange-400' },
-                { name: 'Javier Andres Gomez', doc: '1033456789', status: 'No Inscrito', email: 'javier.gomez@example.com', statusColor: 'text-red-400' },
-            ];
-
-            function updateButtonState() {
-                if (fichaInput.value.trim() !== '') {
-                    executeButton.disabled = false;
-                    executeButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    executeButton.disabled = true;
-                    executeButton.classList.add('opacity-50', 'cursor-not-allowed');
-                }
+            function appendLog(text) {
+                const p = document.createElement('p');
+                p.className = 'text-[#888888] font-mono text-sm';
+                const timestamp = new Date().toLocaleTimeString();
+                p.innerHTML = `[${timestamp}] ${text}`;
+                activityLog.appendChild(p);
+                activityLog.scrollTop = activityLog.scrollHeight;
             }
 
-            fichaInput.addEventListener('input', updateButtonState);
-
-            executeButton.addEventListener('click', () => {
-                // Clear previous results
-                activityLog.innerHTML = '';
+            function updateResultsTable(data) {
                 resultsTableBody.innerHTML = '';
-                resultsPlaceholder.classList.remove('hidden');
+                resultsPlaceholder.classList.add('hidden');
 
-                // Simulate activity log
-                const logMessages = [
-                    { text: `Iniciando proceso para ficha ${fichaInput.value}...`, color: 'text-gray-400' },
-                    { text: 'Iniciando WebDriver...', color: 'text-green-400' },
-                    { text: 'Navegando a la página de inicio de sesión...', color: 'text-gray-400' },
-                    { text: 'Ingresando credenciales...', color: 'text-gray-400' },
-                    { text: 'Buscando reportes...', color: 'text-green-400' },
-                    { text: 'Reporte generado exitosamente.', color: 'text-green-400' },
-                    { text: 'Proceso completado.', color: 'text-gray-400' }
-                ];
+                if (!data || data.length === 0) {
+                    resultsPlaceholder.classList.remove('hidden');
+                    return;
+                }
 
-                let delay = 0;
-                logMessages.forEach(msg => {
-                    setTimeout(() => {
-                        const p = document.createElement('p');
-                        p.className = 'font-mono text-sm';
-                        const timestamp = new Date().toLocaleTimeString();
-                        p.innerHTML = `[${timestamp}] <span class="${msg.color}">${msg.text}</span>`;
-                        activityLog.appendChild(p);
-                        activityLog.scrollTop = activityLog.scrollHeight;
-                    }, delay);
-                    delay += 500; 
+                data.forEach(row => {
+                    const rowHtml = `
+                        <tr class="bg-[#1c2126] border-b border-[#3c4753]">
+                            <th class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                                ${row.nombre || row['Nombre Completo'] || ''}
+                            </th>
+                            <td class="px-6 py-4">${row.documento || row['Número de Documento'] || ''}</td>
+                            <td class="px-6 py-4 ${row.estado === 'Inscrito' ? 'text-green-400' : 'text-orange-400'}">
+                                ${row.estado || row['Estado'] || ''}
+                            </td>
+                            <td class="px-6 py-4">${row.correo || row['Correo Electrónico'] || ''}</td>
+                        </tr>
+                    `;
+                    resultsTableBody.innerHTML += rowHtml;
                 });
+            }
 
-                // Simulate fetching and displaying results
-                setTimeout(() => {
-                    resultsPlaceholder.classList.add('hidden');
-                    sampleData.forEach(item => {
-                        const row = `
-                            <tr class="bg-[#1c2126] border-b border-[#3c4753]">
-                                <th class="px-6 py-4 font-medium text-white whitespace-nowrap" scope="row">${item.name}</th>
-                                <td class="px-6 py-4">${item.doc}</td>
-                                <td class="px-6 py-4 ${item.statusColor}">${item.status}</td>
-                                <td class="px-6 py-4">${item.email}</td>
-                            </tr>
-                        `;
-                        resultsTableBody.innerHTML += row;
-                    });
-                }, delay);
+            // Escuchar logs del proceso
+            window.api.onReportesLog((message) => {
+                appendLog(message);
             });
 
-            // Initial state
-            updateButtonState();
+            executeButton.addEventListener('click', async () => {
+                const ficha = fichaInput.value.trim();
+                if (!ficha) {
+                    appendLog('Error: debe ingresar un número de ficha antes de ejecutar.');
+                    fichaInput.focus();
+                    return;
+                }
+
+                try {
+                    executeButton.disabled = true;
+                    activityLog.innerHTML = '';
+                    resultsTableBody.innerHTML = '';
+                    resultsPlaceholder.classList.remove('hidden');
+
+                    const result = await window.api.reportesExecute(ficha);
+
+                    if (result.success) {
+                        updateResultsTable(result.data);
+                    } else {
+                        console.error('Error:', result.error);
+                        appendLog('Error: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Error en la ejecución:', error);
+                    appendLog('Error en la ejecución: ' + String(error));
+                } finally {
+                    executeButton.disabled = false;
+                }
+            });
         });
     </script>
 </body>

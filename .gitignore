@@ -1,0 +1,63 @@
+# ----------------------------------------
+# 1. DEPENDENCIAS Y ARCHIVOS DE NODE/NPM/ELECTRON
+# ----------------------------------------
+
+# Directorio de módulos de Node.js (CRUCIAL para reducir el tamaño)
+/node_modules
+
+# Archivos de caché
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# Archivos de construcción/empaquetado de Electron (Build)
+# Estos directorios se generan al empaquetar tu aplicación
+/dist
+/build
+!.gitkeep # Permite mantener directorios vacíos si es necesario
+
+# Archivos de caché específicos de Electron/Builder
+.electron-builder-cache/
+
+
+# ----------------------------------------
+# 2. DEPENDENCIAS Y CACHÉ DE PYTHON
+# ----------------------------------------
+
+# Directorio de entornos virtuales
+/venv
+/env
+__pycache__/
+
+# Archivos de compilación de Python (byte-code)
+*.pyc
+*.pyd
+*.pyo
+
+# Archivos de Python generados por IDEs o temporales
+.python-version
+.ipynb_checkpoints/
+
+
+# ----------------------------------------
+# 3. JUPYTER NOTEBOOKS
+# ----------------------------------------
+
+# Si quieres IGNORAR TODOS los archivos de notebook generados:
+# *.ipynb
+
+# Si quieres INCLUIR los notebooks (OPCION RECOMENDADA si son importantes):
+# No añadas nada aquí.
+
+# ----------------------------------------
+# 4. CREDENCIALES, CLAVES Y ARCHIVOS SECRETOS
+# ----------------------------------------
+
+# Nunca subas archivos con información sensible
+*.env
+.env
+config.local.js
+secrets.json

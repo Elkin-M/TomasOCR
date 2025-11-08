@@ -1,0 +1,14 @@
+{
+  "name": "sena-automation",
+  "version": "1.0.0",
+  "description": "SENA Automation Desktop App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "install-py": "pip install -r requirements.txt"
+  },
+  "dependencies": {
+    "electron": "^28.3.3",
+    "python-shell": "^5.0.0"
+  }
+}
