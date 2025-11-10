@@ -331,8 +331,11 @@ def process_data_and_compare_excel(extracted_data_json_path, comparison_excel_pa
         if not os.path.exists(OUTPUT_FOLDER):
             os.makedirs(OUTPUT_FOLDER)
             
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_filename = os.path.join(OUTPUT_FOLDER, f"informe_final_comparacion_{timestamp}.xlsx")
+        # Extraer el número de ficha del nombre del archivo de comparación
+        ficha_match = re.search(r'Ficha-(\d+)', comparison_excel_path)
+        ficha_number = ficha_match.group(1) if ficha_match else "DESCONOCIDA"
+        
+        output_filename = os.path.join(OUTPUT_FOLDER, f"informe_final_({ficha_number}).xlsx")
 
         # Seleccionar columnas para el informe
         columns_to_report = ['Identificacion_Ext', 'Nombre_Ext', 'Identificacion_Ref', 'Nombre_Ref', 'Estado_Comparacion']
@@ -378,6 +381,33 @@ def get_most_recent_report():
         error_msg = f"Error al buscar el reporte más reciente: {e}\n{traceback.format_exc()}"
         send_log(error_msg)
         send_result({"success": False, "action": "get_most_recent_report", "error": error_msg})
+
+def get_most_recent_informe():
+    """Encuentra el informe más reciente en la carpeta 'Output_Informes'."""
+    send_log("Buscando el informe más reciente...")
+    try:
+        informes_folder = os.path.join(os.path.dirname(__file__), '..', '..', 'Output_Informes')
+        if not os.path.exists(informes_folder):
+            raise FileNotFoundError("La carpeta 'Output_Informes' no existe.")
+
+        informe_files = [f for f in os.listdir(informes_folder) if f.startswith("informe_final_(") and f.endswith(").xlsx")]
+        if not informe_files:
+            raise FileNotFoundError("No se encontraron archivos de 'informe_final_(' en la carpeta.")
+
+        latest_informe = max(informe_files, key=lambda f: os.path.getmtime(os.path.join(informes_folder, f)))
+        latest_informe_path = os.path.join(informes_folder, latest_informe)
+
+        send_log(f"Informe más reciente encontrado: {latest_informe}")
+        send_result({"success": True, "action": "get_most_recent_informe", "informe_path": latest_informe_path})
+
+    except FileNotFoundError as fnf_error:
+        error_msg = str(fnf_error)
+        send_log(error_msg)
+        send_result({"success": False, "action": "get_most_recent_informe", "error": error_msg})
+    except Exception as e:
+        error_msg = f"Error al buscar el informe más reciente: {e}\n{traceback.format_exc()}"
+        send_log(error_msg)
+        send_result({"success": False, "action": "get_most_recent_informe", "error": error_msg})
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -444,6 +474,9 @@ if __name__ == "__main__":
 
     elif action == "get_most_recent_report":
         get_most_recent_report()
+
+    elif action == "get_most_recent_informe":
+        get_most_recent_informe()
 
     else:
         send_result({"success": False, "error": f"Acción desconocida: {action}"})

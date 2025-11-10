@@ -18,13 +18,15 @@ def log_message(message):
     """Envía mensajes de log al frontend en formato JSON."""
     print(json.dumps({"type": "log", "message": message}), flush=True)
 
-def main(ficha):
+def main(ficha, informe_path=None):
     driver = None
     try:
         if not ficha:
             raise ValueError("No se proporcionó un número de ficha.")
 
         log_message(f"🚀 Iniciando proceso para convocar aspirantes de la ficha: {ficha}")
+        if informe_path:
+            log_message(f"📄 Usando archivo de informe: {informe_path}")
 
         # --- Configuración de Selenium ---
         chrome_options = Options()
@@ -116,5 +118,14 @@ def main(ficha):
             log_message("✅ Navegador cerrado.")
 
 if __name__ == "__main__":
-    ficha_arg = sys.argv[1] if len(sys.argv) > 1 else ""
-    main(ficha_arg)
+    if len(sys.argv) > 2 and sys.argv[1].lower() == 'execute':
+        ficha_arg = sys.argv[2]
+        informe_path_arg = sys.argv[3] if len(sys.argv) > 3 else None
+        main(ficha_arg, informe_path_arg)
+    elif len(sys.argv) > 1:
+        # Fallback for direct execution with ficha only, for testing
+        ficha_arg = sys.argv[1]
+        main(ficha_arg)
+    else:
+        log_message("Error: No se proporcionó número de ficha o acción correcta.")
+        print(json.dumps({"success": False, "error": "Argumentos insuficientes."}), flush=True)

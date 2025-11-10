@@ -98,9 +98,9 @@ app.whenReady().then(() => {
         return executePythonScript('sgs_service.py', action, args, event);
     });
 
-    ipcMain.handle('aspirantes:execute', async (event, ficha) => {
+    ipcMain.handle('aspirantes:execute', async (event, ficha, informePath) => {
         const action = 'execute';
-        const args = [ficha];
+        const args = [ficha, informePath];
         return executePythonScript('convocar_aspirantes_service.py', action, args, event);
     });
 
@@ -176,6 +176,12 @@ app.whenReady().then(() => {
 
     ipcMain.handle('ocr:getMostRecentReport', async (event) => {
         const action = 'get_most_recent_report';
+        const args = [];
+        return executePythonScript('ocr_service.py', action, args, event);
+    });
+
+    ipcMain.handle('finMatricula:getMostRecentInforme', async (event) => {
+        const action = 'get_most_recent_informe';
         const args = [];
         return executePythonScript('ocr_service.py', action, args, event);
     });

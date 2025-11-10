@@ -114,6 +114,18 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-2 flex flex-col gap-6">
                             <div class="bg-component-dark p-6 rounded-xl">
+                                <h3 class="text-lg font-bold text-white mb-1">Paso 0: Seleccionar Archivo de Informe</h3>
+                                <p class="text-gray-400 text-sm mb-4">Seleccione el archivo de informe para procesar. Este paso es opcional si la ficha ya fue procesada.</p>
+                                <div class="flex flex-col gap-2">
+                                    <label for="informe-input" class="text-sm font-medium sr-only">Seleccionar Archivo</label>
+                                    <input type="file" id="informe-input" class="form-input w-full rounded-lg text-white focus:outline-0 focus:ring-0 border border-gray-600 bg-gray-800 focus:border-primary h-12 placeholder:text-gray-500 px-4" accept=".xlsx,.xls" />
+                                    <p id="selected-informe-label" class="mt-1 text-sm text-gray-400">Ningún archivo seleccionado.</p>
+                                    <div id="suggested-informe-container" class="mt-2 p-3 bg-gray-800/50 rounded-lg border border-dashed border-gray-700 text-center">
+                                        <p id="suggested-informe-label" class="text-sm text-gray-400">Sugerencia: Ninguno.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-component-dark p-6 rounded-xl">
                                 <h3 class="text-lg font-bold text-white mb-1">Paso 1: Selección de Ficha</h3>
                                 <p class="text-gray-400 text-sm mb-4">Ingrese el número de la ficha para cargar los
                                     aspirantes.</p>
@@ -271,6 +283,50 @@
             const aspirantsTableBody = document.getElementById('aspirants-table-body');
             const executeButton = document.getElementById('execute-button');
             const statusContainer = document.getElementById('status-container');
+
+            const informeInput = document.getElementById('informe-input');
+            const selectedInformeLabel = document.getElementById('selected-informe-label');
+            const suggestedInformeLabel = document.getElementById('suggested-informe-label');
+            let selectedInformePath = null;
+
+            function handleInformeSelection(file) {
+                if (file && (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.name.endsWith('.xls') || file.name.endsWith('.xlsx'))) {
+                    selectedInformePath = file.path;
+                    selectedInformeLabel.textContent = `Archivo seleccionado: ${file.name}`;
+                } else {
+                    selectedInformePath = null;
+                    selectedInformeLabel.textContent = 'Ningún archivo seleccionado.';
+                }
+            }
+
+            informeInput.addEventListener('change', (e) => handleInformeSelection(e.target.files[0]));
+
+            async function suggestMostRecentInforme() {
+                try {
+                    const result = await window.api.getMostRecentInforme();
+                    if (result.success && result.informe_path) {
+                        const informePath = result.informe_path;
+                        const informeName = informePath.replace(/^.*[\\\/]/, '');
+
+                        suggestedInformeLabel.innerHTML = `Sugerencia: <button id="select-suggested-informe-button" class="font-bold text-primary hover:underline">${informeName}</button>`;
+
+                        document.getElementById('select-suggested-informe-button').addEventListener('click', () => {
+                            const mockFile = {
+                                path: informePath,
+                                name: informeName,
+                                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                            };
+                            handleInformeSelection(mockFile);
+                        });
+                    } else {
+                        suggestedInformeLabel.textContent = `Sugerencia: Ninguno.`;
+                    }
+                } catch (error) {
+                    suggestedInformeLabel.textContent = `Sugerencia: Ninguno.`;
+                }
+            }
+
+            suggestMostRecentInforme();
 
             const sampleAspirants = [
                 { name: 'Juan David Restrepo', doc: '1055678901', status: 'Pendiente' },

@@ -17,5 +17,5 @@ contextBridge.exposeInMainWorld('api', {
     onOcrLog: (callback) => ipcRenderer.on('ocr:log', (_event, value) => callback(value)),
     deleteOcrImages: (data) => ipcRenderer.invoke('ocr:deleteImages', data),
     getMostRecentReport: () => ipcRenderer.invoke('ocr:getMostRecentReport'),
-    getMostRecentReport: () => ipcRenderer.invoke('ocr:getMostRecentReport')
+    getMostRecentInforme: () => ipcRenderer.invoke('finMatricula:getMostRecentInforme')
 });

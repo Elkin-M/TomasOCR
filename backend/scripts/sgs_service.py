@@ -88,55 +88,47 @@ def navegacion_principal(driver):
     try:
         driver.switch_to.default_content()
         
+        log_message("Seleccionando Rol...")
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="seleccionRol:roles"]/option[4]'))
         ).click()
-        time.sleep(4)
+        time.sleep(1) # Pequeña espera para que la acción de clic se registre
         log_message("[OK] Rol seleccionado")
+
+        log_message("Esperando a que la página cargue (desaparezca el overlay)...")
+        WebDriverWait(driver, 20).until(
+            EC.invisibility_of_element_located((By.CLASS_NAME, "blockUI"))
+        )
+        log_message("[OK] Página cargada.")
         
         driver.switch_to.default_content()
         
-        try:
-            WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, '/html/body[1]/div/div[1]/nav/div[2]/div/div/form[2]/ul/li[9]/a'))
-            ).click()
-            
-            WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, '/html/body[1]/div/div[1]/nav/div[2]/div/div/form[2]/ul/li[9]/ul/li/a'))
-            ).click()
-            
-            elemento = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, '/html/body[1]/div/div[1]/nav/div[2]/div/div/form[2]/ul/li[9]/ul/li/ul/li[4]/a'))
-            )
-            driver.execute_script("arguments[0].click();", elemento)
-            log_message("[OK] Navegacion completada")
-            
-        except:
-            log_message("[WARN] Primer intento de navegacion fallo, intentando alternativa...")
-            try:
-                WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, '/html/body[1]/div/div[1]/nav/div[2]/div/div/form[2]/ul/l[9]/a'))
-                ).click()
-                
-                WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, '/html/body[1]/div/div[1]/nav/div[2]/div/div/form[2]/ul/li[9]/ul/li/a'))
-                ).click()
-                
-                elemento = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, '/html/body[1]/div/div[1]/nav/div[2]/div/div/form[2]/ul/li[9]/ul/li/ul/li[4]/a'))
-                )
-                driver.execute_script("arguments[0].click();", elemento)
-                log_message("[OK] Navegacion completada (segundo intento)")
-            except:
-                log_message("[WARN] Navegacion manual requerida")
-                return False
+        log_message("Navegando a 'Gestión de Desarrollo Curricular'...")
+        WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="side-menu"]/li[9]/a'))
+        ).click()
+        time.sleep(1)
+
+        log_message("Navegando a 'Desarrollo de la Formación'...")
+        WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="side-menu"]/li[9]/ul/li/a'))
+        ).click()
+        time.sleep(1)
+
+        log_message("Navegando a 'Consultar Fichas de Caracterización'...")
+        elemento = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="327229Opcion"]'))
+        )
+        driver.execute_script("arguments[0].click();", elemento)
         
+        log_message("[OK] Navegacion completada")
         time.sleep(3)
         return True
         
     except Exception as e:
-        log_message(f"[WARN] Error en navegacion principal (continuando): {e}")
-        return False  # Continuar de todas formas
+        log_message(f"[ERROR] Error en navegacion principal: {e}")
+        traceback.print_exc()
+        return False
 
 def consultar_ficha(driver, ficha):
     """Consulta una ficha en Sofia Plus y obtiene su estado"""
@@ -152,9 +144,12 @@ def consultar_ficha(driver, ficha):
         driver.switch_to.frame("contenido")
         
         # Ingresar la ficha en el input
-        input_xpath = "/html/body/div[2]/form/div[1]/fieldset/table/tbody/tr[6]/td[2]/input"
-        input_element = driver.find_element(By.XPATH, input_xpath)
+        log_message(f"Buscando campo de ficha con ID 'formConsultar:numeroFicha'...")
+        input_element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "formConsultar:numeroFicha"))
+        )
         input_element.clear()
+        log_message(f"DEBUG: Enviando la siguiente ficha al campo de texto: {ficha}")
         input_element.send_keys(ficha)
         
         # Hacer clic en el botón "Consultar Ficha"
@@ -474,8 +469,12 @@ def run_sgs(ficha):
         pass  # No hacer nada, dejar el navegador abierto
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        ficha = sys.argv[1]
-        run_sgs(ficha)
+    if len(sys.argv) > 2:
+        action = sys.argv[1]
+        ficha = sys.argv[2]
+        if action.lower() == 'execute':
+            run_sgs(ficha)
+        else:
+            print(json.dumps({"success": False, "error": f"Acción desconocida: {action}"}, ensure_ascii=False), flush=True)
     else:
-        print(json.dumps({"success": False, "error": "No se proporciono numero de ficha"}, ensure_ascii=False), flush=True)
+        print(json.dumps({"success": False, "error": "Argumentos insuficientes. Se requiere una acción y un número de ficha."}, ensure_ascii=False), flush=True)

@@ -68,15 +68,28 @@
                 </div>
 
                 <div class="bg-[#1c2126] rounded-lg p-6 border border-[#3c4753]">
-                    <div class="flex items-end gap-4">
-                        <div class="flex-grow">
-                            <label for="ficha-input" class="block text-sm font-medium text-text-light mb-2">Número de Ficha</label>
-                            <input type="text" id="ficha-input" class="w-full bg-[#111418] border border-[#3c4753] text-white rounded-lg focus:ring-primary focus:border-primary" placeholder="Ej: 2826917">
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <label for="informe-path-input" class="block text-sm font-medium text-text-light mb-2">Archivo de Informe (Opcional)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="text" id="informe-path-input" class="w-full bg-[#111418] border border-[#3c4753] text-white rounded-lg focus:ring-primary focus:border-primary cursor-not-allowed" placeholder="Ruta del archivo de informe" readonly>
+                                <button id="suggest-informe-button" class="flex items-center justify-center rounded-lg h-12 px-4 bg-blue-600 text-white text-base font-bold hover:bg-blue-700 disabled:bg-gray-500 disabled:cursor-not-allowed">
+                                    <span class="material-symbols-outlined mr-2">auto_awesome</span>
+                                    <span>Sugerir</span>
+                                </button>
+                            </div>
+                            <p id="informe-suggestion-label" class="mt-1 text-sm text-gray-400">Ningún archivo sugerido.</p>
                         </div>
-                        <button id="execute-button" class="flex items-center justify-center rounded-lg h-12 px-6 bg-[#39A900] text-white text-base font-bold hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed">
-                            <span class="material-symbols-outlined mr-2">play_arrow</span>
-                            <span>Ejecutar</span>
-                        </button>
+                        <div class="flex items-end gap-4">
+                            <div class="flex-grow">
+                                <label for="ficha-input" class="block text-sm font-medium text-text-light mb-2">Número de Ficha</label>
+                                <input type="text" id="ficha-input" class="w-full bg-[#111418] border border-[#3c4753] text-white rounded-lg focus:ring-primary focus:border-primary" placeholder="Ej: 2826917">
+                            </div>
+                            <button id="execute-button" class="flex items-center justify-center rounded-lg h-12 px-6 bg-[#39A900] text-white text-base font-bold hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed">
+                                <span class="material-symbols-outlined mr-2">play_arrow</span>
+                                <span>Ejecutar</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -94,6 +107,39 @@
             const fichaInput = document.getElementById('ficha-input');
             const executeButton = document.getElementById('execute-button');
             const logContainer = document.getElementById('log-container');
+
+            const informePathInput = document.getElementById('informe-path-input');
+            const suggestInformeButton = document.getElementById('suggest-informe-button');
+            const informeSuggestionLabel = document.getElementById('informe-suggestion-label');
+
+            let selectedInformePath = null;
+
+            suggestInformeButton.addEventListener('click', async () => {
+                suggestInformeButton.disabled = true;
+                informeSuggestionLabel.textContent = 'Buscando sugerencia...';
+                try {
+                    const result = await window.api.getMostRecentInforme(); // Reusing the finMatricula API call
+                    if (result.success && result.informe_path) {
+                        selectedInformePath = result.informe_path;
+                        const informeName = selectedInformePath.replace(/^.*[\\\/]/, '');
+                        informePathInput.value = selectedInformePath;
+                        informeSuggestionLabel.innerHTML = `Sugerencia: <span class="font-bold text-primary">${informeName}</span>`;
+                        addLog(`Archivo de informe sugerido: ${informeName}`, 'info');
+                    } else {
+                        selectedInformePath = null;
+                        informePathInput.value = '';
+                        informeSuggestionLabel.textContent = 'Sugerencia: Ninguno encontrado.';
+                        addLog('No se encontró ningún archivo de informe reciente.', 'warn');
+                    }
+                } catch (error) {
+                    selectedInformePath = null;
+                    informePathInput.value = '';
+                    informeSuggestionLabel.textContent = 'Error al buscar sugerencia.';
+                    addLog(`Error al buscar sugerencia de informe: ${error.message}`, 'error');
+                } finally {
+                    suggestInformeButton.disabled = false;
+                }
+            });
 
             const addLog = (message, type = 'info') => {
                 const p = document.createElement('p');
@@ -122,9 +168,12 @@
                 executeButton.querySelector('span:last-child').textContent = 'Ejecutando...';
                 logContainer.innerHTML = '';
                 addLog(`Iniciando proceso para la ficha: ${ficha}`, 'info');
+                if (selectedInformePath) {
+                    addLog(`Usando archivo de informe: ${selectedInformePath}`, 'info');
+                }
 
                 try {
-                    const result = await window.api.aspirantesExecute(ficha);
+                    const result = await window.api.aspirantesExecute(ficha, selectedInformePath);
                     if (result.success) {
                         addLog('✅ Proceso finalizado con éxito.', 'success');
                         addLog(`Resultado: ${result.message}`, 'success');
