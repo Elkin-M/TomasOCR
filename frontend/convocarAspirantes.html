@@ -38,7 +38,7 @@
 <body class="bg-background-light dark:bg-background-dark font-display">
     <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
         <div class="flex h-full grow flex-row">
-            <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0">
+            <aside class="w-64 bg-card-dark flex flex-col p-4 shrink-0 h-screen sticky top-0">
                 <div class="flex items-center gap-3 mb-8">
                     <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("assets/logo_sena.png");'></div>
                     <div class="flex flex-col">
@@ -61,7 +61,7 @@
                     <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">logout</span><p class="text-sm font-medium leading-normal">Cerrar Sesión</p></a>
                 </div>
             </aside>
-            <main class="flex-1 p-8">
+            <main class="flex-1 p-8 overflow-y-auto">
                 <div class="flex flex-col gap-3 mb-6">
                     <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Convocar Aspirantes</p>
                     <p class="text-[#9dabb8] text-base font-normal leading-normal">Ingrese el número de la ficha para buscar los aspirantes a convocar.</p>
