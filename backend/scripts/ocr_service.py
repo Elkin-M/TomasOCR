@@ -60,7 +60,7 @@ def convert_pdf_to_images(archivo_pdf, ruta_salida, dpi=300):
             nombre_archivo_salida = os.path.join(ruta_salida, f"imagen{num_pagina + 1}.jpg") # Original naming
             pix.save(nombre_archivo_salida, "JPEG")
             num_paginas_generadas += 1
-            send_log(f"  - Guardada: {os.path.basename(nombre_archivo_salida)}")
+            send_log(f"  - Guardada: {os.path.basename(nombre_archivo_salida)}")
         pdf_documento.close()
         send_log(f"{num_paginas_generadas} imágenes JPG generadas en '{ruta_salida}'.")
         image_paths = [os.path.join(ruta_salida, f"imagen{i + 1}.jpg") for i in range(num_paginas_generadas)]  # Create image_paths list
@@ -122,13 +122,13 @@ def _resequence_images_in_temp_folder(folder_path):
             except Exception as e_r1: send_log(f"Error 1er renombrado {os.path.basename(old_path)}: {e_r1}"); return False, renamed_count
         for very_temp_path, final_name_only in temp_renames:
             final_new_path = os.path.join(folder_path, final_name_only)
-            try: os.rename(very_temp_path, final_new_path); send_log(f"  - Resecuenciado a: {final_name_only}"); renamed_count += 1
+            try: os.rename(very_temp_path, final_new_path); send_log(f"  - Resecuenciado a: {final_name_only}"); renamed_count += 1
             except Exception as e_r2: send_log(f"Error 2do renombrado {os.path.basename(very_temp_path)}: {e_r2}"); return False, renamed_count
         send_log(f"Resecuenciación completada. {renamed_count} archivos renombrados a 'procesar_X.jpg'.")
         for entry in os.listdir(folder_path):
             if entry.lower().startswith("imagen") and entry.lower().endswith(ALLOWED_EXTENSIONS):
-                try: os.unlink(os.path.join(folder_path, entry)); send_log(f"  - Limpiado original restante: {entry}")
-                except Exception as e_c: send_log(f"  - Error limpiando original {entry}: {e_c}")
+                try: os.unlink(os.path.join(folder_path, entry)); send_log(f"  - Limpiado original restante: {entry}")
+                except Exception as e_c: send_log(f"  - Error limpiando original {entry}: {e_c}")
         return True, renamed_count
     except Exception as e: send_log(f"Error mayor resecuenciación: {e}\n{traceback.format_exc()}"); return False, 0
 
@@ -143,7 +143,7 @@ def delete_images(image_paths_to_delete):
             try:
                 if os.path.exists(image_path) and image_path.startswith(TEMP_IMAGE_FOLDER): # Seguridad: sólo elimina de la carpeta temp
                     os.unlink(image_path)
-                    send_log(f"  - Eliminada: {os.path.basename(image_path)}")
+                    send_log(f"  - Eliminada: {os.path.basename(image_path)}")
                     deleted_count += 1
             except Exception as e:
                 send_log(f"Error al eliminar {os.path.basename(image_path)}: {e}")
@@ -300,12 +300,15 @@ def process_data_and_compare_excel(extracted_data_json_path, comparison_excel_pa
             send_log(f"Error: Archivo de comparación no encontrado en {comparison_excel_path}")
             return False
 
-        df_referencia = pd.read_excel(comparison_excel_path)
+        # Leer encabezado desde la fila 6 (header=5)
+        df_referencia = pd.read_excel(comparison_excel_path, header=5)
+        df_referencia.columns = df_referencia.columns.str.strip()
         
         # 3. Preparar DataFrames para la comparación
         
         # Renombrar columnas clave del Excel de referencia
-        df_referencia.rename(columns={'NOMBRES': 'Nombre_Ref', 'IDENTIFICACION': 'Identificacion_Ref'}, inplace=True)
+        # CORRECCIÓN APLICADA: Usamos 'Nombre' y 'Identificación' según la imagen del reporte.
+        df_referencia.rename(columns={'Nombre': 'Nombre_Ref', 'Identificación': 'Identificacion_Ref'}, inplace=True)
         
         # Estandarización de columnas clave para unión (Merge)
         df_extraido['Identificacion_Str'] = df_extraido['Identificacion_Ext'].astype(str).str.replace(r'\D', '', regex=True).str.strip() # Limpiar caracteres no numéricos
