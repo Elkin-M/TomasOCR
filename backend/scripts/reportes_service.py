@@ -23,13 +23,15 @@ def log_message(message):
 
 def inicializar_driver():
     """Inicializa el driver de Chrome"""
+    # Esta función no se usa directamente en generar_reporte, pero se mantiene por contexto.
     try:
         chrome_options = Options()
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument("--disable-notifications")
-        chrome_options.add_experimental_option("detach", True)  # Mantener navegador abierto
+        chrome_options.add_experimental_option("detach", True)
         
         log_message("Iniciando ChromeDriver...")
+        # NOTA: Asegúrate de que esta ruta sea la correcta en el entorno de ejecución
         service = Service(r"D:\\Users\\Lenovo\\Documents\\chrome-win\\chromedriver.exe")
         driver = webdriver.Chrome(service=service, options=chrome_options)
         
@@ -54,11 +56,12 @@ def hacer_clic_ingresar(driver):
         return True
     except Exception as e:
         log_message(f"[WARN] No se encontro el boton Ingresar (continuando): {e}")
-        return False  # Continuar de todas formas
+        return False
 
 def iniciar_sesion(driver):
     """Inicia sesión en el sistema Sofia Plus"""
-    usuario = "1050962935"
+    # **REEMPLAZAR CON CREDENCIALES REALES O PARÁMETROS DE ENTRADA**
+    usuario = "1050962935" 
     contrasena = "PapaJose92805331050*"
     
     try:
@@ -84,7 +87,7 @@ def iniciar_sesion(driver):
         return True
     except Exception as e:
         log_message(f"[WARN] Error al iniciar sesion (continuando): {e}")
-        return False  # Continuar de todas formas
+        return False
 
 def generar_reporte(ficha):
     driver = None
@@ -108,6 +111,7 @@ def generar_reporte(ficha):
         }
         chrome_options.add_experimental_option("prefs", prefs)
         
+        # NOTA: Asegúrate de que esta ruta sea la correcta
         service = Service(r"D:\\Users\\Lenovo\\Documents\\chrome-win\\chromedriver.exe")
         driver = webdriver.Chrome(service=service, options=chrome_options)
         wait = WebDriverWait(driver, 15)
@@ -128,16 +132,30 @@ def generar_reporte(ficha):
         # 4. Seleccionar rol y navegar al módulo de reportes
         driver.switch_to.default_content()
         log_message("Seleccionando rol...")
+        # Asumiendo que option[4] es 'Apoyo Administrativo'
         wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="seleccionRol:roles"]/option[4]'))).click()
         time.sleep(4)
+        
+        # Navegación al reporte
         driver.switch_to.default_content()
         log_message("Navegando al módulo de reportes...")
+        # Gestión de Reportes
         wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="side-menu"]/li[4]/a'))).click()
+        # Reportes de Inscripción
         wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="side-menu"]/li[4]/ul/li[1]/a'))).click()
+        # Generar reporte de inscripción
         elemento = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="3230Opcion"]')))
         driver.execute_script("arguments[0].click();", elemento)
         time.sleep(3)
         log_message("Llegada a 'Generar reporte de inscripción'.")
+        
+        # **AÑADIDO**: Espera para asegurar que no hay overlays después de la navegación
+        try:
+            log_message("Esperando a que el contenedor principal sea visible...")
+            wait.until(EC.visibility_of_element_located((By.ID, "frmPrincipal"))) 
+        except:
+            log_message("Advertencia: El contenedor principal tardó en cargar o no se encontró el ID 'frmPrincipal'.")
+        time.sleep(2) # Pausa de seguridad extra
 
         # 5. Lógica robusta para buscar ficha y descargar reporte
         log_message("Iniciando lógica de búsqueda y descarga...")
@@ -154,11 +172,18 @@ def generar_reporte(ficha):
 
         # 5.2. Hacer clic en el icono de filtro para abrir el modal
         try:
-            log_message("Haciendo clic en el icono de filtros para abrir modal...")
+            log_message("Haciendo clic en el icono de filtros para abrir modal (Solución ElementClickIntercepted)...")
             icono_filtros_xpath = '/html/body[1]/div[2]/form/div[1]/fieldset/table/tbody/tr[1]/td[2]/table/tbody/tr/td[2]/a/img'
-            icono_filtros = wait.until(EC.presence_of_element_located((By.XPATH, icono_filtros_xpath)))
+            
+            # **MODIFICACIÓN CLAVE**: Usar element_to_be_clickable
+            icono_filtros = wait.until(
+                EC.element_to_be_clickable((By.XPATH, icono_filtros_xpath))
+            )
+            
+            # Usar JavaScript para forzar el clic y evitar intercepciones
             driver.execute_script("arguments[0].click();", icono_filtros)
-            log_message("Clic en icono de filtros ejecutado.")
+            
+            log_message("Clic en icono de filtros ejecutado con JS.")
             time.sleep(2)
         except Exception as e:
             log_message(f"Error al hacer clic en el icono de filtros: {e}")
@@ -186,14 +211,15 @@ def generar_reporte(ficha):
 
             log_message("Haciendo clic en el botón de búsqueda del modal...")
             search_button_modal_xpath = '//*[@id="form:buscarCBT"]'
-            search_button = wait.until(EC.presence_of_element_located((By.XPATH, search_button_modal_xpath)))
+            # También usamos element_to_be_clickable aquí para mayor seguridad
+            search_button = wait.until(EC.element_to_be_clickable((By.XPATH, search_button_modal_xpath)))
             driver.execute_script("arguments[0].click();", search_button)
             log_message("Clic con JavaScript en búsqueda del modal ejecutado.")
             time.sleep(3)
 
             log_message("Seleccionando el primer resultado de la ficha...")
             first_result_xpath = '//*[@id="form:dtFichas:0:imgSelec"]'
-            first_result = wait.until(EC.presence_of_element_located((By.XPATH, first_result_xpath)))
+            first_result = wait.until(EC.element_to_be_clickable((By.XPATH, first_result_xpath)))
             driver.execute_script("arguments[0].click();", first_result)
             log_message("Primer resultado seleccionado con JavaScript. El modal debería cerrarse.")
             time.sleep(3)
@@ -205,10 +231,12 @@ def generar_reporte(ficha):
         try:
             log_message("Regresando al iframe 'contenido' principal...")
             driver.switch_to.default_content()
-            driver.switch_to.frame("contenido")
+            # Volvemos al iframe principal de la aplicación
+            wait.until(EC.frame_to_be_available_and_switch_to_it((By.ID, "contenido"))) 
 
             log_message("Seleccionando opción del desplegable de reportes...")
-            dropdown_option_xpath = '//*[@id="opcionesInscritos"]/option[2]'
+            # Opción: Inscritos por tipo de identificación
+            dropdown_option_xpath = '//*[@id="opcionesInscritos"]/option[2]' 
             wait.until(EC.element_to_be_clickable((By.XPATH, dropdown_option_xpath))).click()
             time.sleep(1)
 
@@ -263,8 +291,7 @@ def generar_reporte(ficha):
                 input()
                 driver.quit()
             else:
-                # Cuando es llamado desde la app, no cerramos el driver para permitir depuración.
-                # La opción 'detach' mantiene la ventana abierta.
+                # La opción 'detach' mantiene la ventana abierta en la aplicación principal.
                 pass
 
         result = {
@@ -280,7 +307,7 @@ if len(sys.argv) > 2 and sys.argv[1] == 'execute':
     ficha = sys.argv[2]
     generar_reporte(ficha)
 elif __name__ == "__main__":
-    ficha = "123456" # Default value for testing
+    ficha = "2826917" # Valor predeterminado para pruebas
     if len(sys.argv) > 1:
         ficha = sys.argv[1]
     generar_reporte(ficha)

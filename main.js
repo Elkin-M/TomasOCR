@@ -1,30 +1,90 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('path')
 const { PythonShell } = require('python-shell')
+ 
+// Variable para mantener la referencia al proceso interactivo de Python
+let interactivePyShell = null; 
 
-/**
- * Crea la ventana principal de la aplicación.
- */
 function createWindow () {
     const win = new BrowserWindow({
-        width: 1200,
-        height: 800,
-        webPreferences: {
+     width: 1200,
+     height: 800,
+     webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
             preload: path.join(__dirname, 'preload.js') 
-        }
+     }
     })
 
     // Carga el archivo HTML de la interfaz
-    win.loadFile('./frontend/OCR.html') 
+    win.loadFile('./frontend/auto.html') 
 }
 
-// Función auxiliar para ejecutar el script de Python
+// --- Nueva función para Scripts Interactivos (auto_service.py) ---
+function executeAutoScript(scriptName, action, args, event) {
+    const pythonPath = 'C:\\Users\\Lenovo\\anaconda3\\envs\\IDAutoSENA\\python.exe';
+    const scriptPath = path.join(__dirname, 'backend', 'scripts');
+
+    return new Promise((resolve) => {
+        const options = {
+            mode: 'text',
+            pythonPath: pythonPath,
+            scriptPath: scriptPath,
+            args: [action, ...args]
+        };
+
+        const pyShell = new PythonShell(scriptName, options);
+        interactivePyShell = pyShell; // Guardar referencia para la respuesta
+
+        let lastResult = null;
+
+        pyShell.on('message', (message) => {
+            try {
+                const parsed = JSON.parse(message);
+                const logChannel = scriptName.split('_')[0].toLowerCase();
+
+                if (parsed.type === 'log') {
+                    event.sender.send(`${logChannel}:log`, parsed.message);
+                } else if (parsed.type === 'progress') {
+                    event.sender.send('auto:progress', parsed);
+                } else if (parsed.type === 'user_interaction_required') {
+                    // ¡Clave! Reenviar solicitud de interacción al frontend y NO resolver la promesa.
+                    event.sender.send('auto:require-interaction', parsed);
+                } else {
+                    lastResult = parsed;
+                }
+            } catch (err) {
+                const logChannel = scriptName.split('_')[0].toLowerCase();
+                event.sender.send(`${logChannel}:log`, `[RAW] ${message}`);
+            }
+   });
+ 
+        pyShell.on('error', (err) => {
+            console.error(`${scriptName} error:`, err);
+            interactivePyShell = null;
+            resolve({ success: false, action: action, error: err.message || String(err) });
+        });
+ 
+        pyShell.end((err) => {
+            interactivePyShell = null; // Limpiar referencia
+            if (err) {
+                console.error(`${scriptName} end error:`, err);
+                resolve({ success: false, action: action, error: err.message || String(err) });
+                return;
+            }
+            if (lastResult) {
+                resolve(lastResult);
+            } else {
+                resolve({ success: true, action: action, message: "Proceso Python finalizado." });
+            }
+        });
+    });
+}
+ 
+ 
+// --- Función Antigua para Scripts No Interactivos ---
 function executePythonScript(scriptName, action, args, event) {
-    // RUTA PYTHON: AJUSTAR A SU INTÉRPRETE DE CONDA (IDAutoSENA)
     const pythonPath = 'C:\\Users\\Lenovo\\anaconda3\\envs\\IDAutoSENA\\python.exe'; 
-    // RUTA SCRIPT: Ajustar si la estructura de carpetas es diferente (asumiendo que main.js está un nivel arriba de backend/scripts)
     const scriptPath = path.join(__dirname, 'backend', 'scripts'); 
 
     return new Promise((resolve) => {
@@ -42,39 +102,35 @@ function executePythonScript(scriptName, action, args, event) {
             try {
                 const parsed = JSON.parse(message);
                 if (parsed.type === 'log') {
-                    // Envía logs al frontend
                     event.sender.send(`${scriptName.split('_')[0]}:log`, parsed.message);
                 } else {
-                    // Guarda el último resultado JSON (el resultado final)
                     lastResult = parsed;
                 }
             } catch (err) {
                 event.sender.send(`${scriptName.split('_')[0]}:log`, `[RAW] ${message}`); 
             }
         });
-
+ 
         pyShell.on('error', (err) => {
             console.error(`${scriptName} error:`, err);
-            // Asegurarse de que el objeto resuelto incluya 'action'
             resolve({ success: false, action: action, error: err.message || String(err) });
         });
 
         pyShell.end((err) => {
             if (err) {
                 console.error(`${scriptName} end error:`, err);
-                // Asegurarse de que el objeto resuelto incluya 'action'
                 resolve({ success: false, action: action, error: err.message || String(err) });
                 return;
             }
             if (lastResult) {
                 resolve(lastResult);
             } else {
-                // Asegurarse de que el objeto resuelto incluya 'action'
-                resolve({ success: true, action: action, message: "Proceso Python finalizado sin resultados JSON explícitos." });
+                resolve({ success: true, action: action, message: "Proceso Python finalizado." });
             }
         });
     });
 }
+
 
 app.whenReady().then(() => {
     createWindow()
@@ -85,7 +141,26 @@ app.whenReady().then(() => {
         }
     })
 
-    // --- MANEJADOR IPC PARA OCR (Implementación de todos los pasos) ---
+    // --- MANEJADORES IPC ---
+
+    // Nuevo: Manejador para la respuesta de interacción del usuario
+    ipcMain.on('auto:interaction-response', (event, responseData) => {
+        if (interactivePyShell) {
+            interactivePyShell.send(JSON.stringify(responseData));
+        } else {
+            console.error('Se recibió una respuesta de interacción, pero no hay ningún script de Python interactivo en ejecución.');
+        }
+    });
+
+    // Actualizado: El manejador de 'auto:execute' ahora usa la nueva función interactiva
+    ipcMain.handle('auto:execute', async (event, ficha, pdfPath) => {
+        const action = 'execute';
+        const args = [ficha, pdfPath];
+        // Usar la nueva función que permite la interactividad
+        return executeAutoScript('auto_service.py', action, args, event);
+    });
+
+    // --- Handlers antiguos para otros servicios (no interactivos) ---
     ipcMain.handle('reportes:execute', async (event, ficha) => {
         const action = 'execute';
         const args = [ficha];
@@ -110,7 +185,6 @@ app.whenReady().then(() => {
 
         switch (action) {
             case 'select_excel':
-                // Lógica para abrir el diálogo de selección de archivo
                 const result = await dialog.showOpenDialog({
                     properties: ['openFile'],
                     filters: [{ name: 'Archivos Excel', extensions: ['xlsx', 'xls'] }]
@@ -126,8 +200,7 @@ app.whenReady().then(() => {
             case 'open_folder':
                 args.push(data.folderPath);
                 break;
-            case 'delete_selected_images': // NUEVO: Maneja la acción de eliminar imágenes
-                // data.imagePathsToDelete debe ser una lista de rutas de imágenes (JSON stringificado)
+            case 'delete_selected_images':
                 args.push(JSON.stringify(data.imagePathsToDelete));
                 break;
             case 'process':
@@ -137,40 +210,30 @@ app.whenReady().then(() => {
                 return { success: false, error: `Acción OCR desconocida: ${action}` };
         }
 
-        // Ejecutar el script de Python con la acción y argumentos
         const pythonResult = await executePythonScript('ocr_service.py', action, args, event);
 
-        // Si la acción es 'process', guardar los datos extraídos en un archivo temporal y luego realizar la comparación
         if (action === 'process' && pythonResult.success && pythonResult.data) {
             const fs = require('fs');
             const os = require('os');
             const path = require('path');
             const tmpDir = os.tmpdir();
             const extractedDataJsonPath = path.join(tmpDir, `extracted_data_${Date.now()}.json`);
-
-            // Guardar los datos extraídos en un archivo temporal
             fs.writeFileSync(extractedDataJsonPath, JSON.stringify(pythonResult.data));
-
-            // Llamar a la acción 'compare' con la ruta del archivo temporal y la ruta del archivo Excel
-            const comparisonExcelPath = data.comparisonExcelPath; // Asegúrate de que la ruta del Excel se pasa desde el frontend
+            const comparisonExcelPath = data.comparisonExcelPath;
             if (!comparisonExcelPath) {
                 return { success: false, error: 'Ruta del archivo Excel no proporcionada para la comparación.' };
             }
             const compareArgs = [extractedDataJsonPath, comparisonExcelPath];
             const compareResult = await executePythonScript('ocr_service.py', 'compare', compareArgs, event);
-
-            // Eliminar el archivo temporal después de la comparación
             fs.unlinkSync(extractedDataJsonPath);
-
             return compareResult;
         }
-
         return pythonResult;
     });
 
     ipcMain.handle('ocr:deleteImages', async (event, data) => {
         const action = 'delete_selected_images';
-        const args = [JSON.stringify(data.imagePaths)]; // imagePaths should be an array of paths
+        const args = [JSON.stringify(data.imagePaths)];
         return executePythonScript('ocr_service.py', action, args, event);
     });
 

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="es">
 
 <head>
@@ -15,36 +14,18 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#FF6A00",
-                        "background-light": "#F8F9FA",
-                        "background-dark": "#111418",
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "0.75rem",
-                        "xl": "1rem",
-                        "full": "9999px"
-                    },
+                    colors: { "primary": "#FF6A00", "background-light": "#F8F9FA", "background-dark": "#111418" },
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings:
-                'FILL' 0,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 24
-        }
-
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
-        }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24 }
+        .progress-bar { transition: width 0.5s ease-in-out; }
+        .modal { transition: opacity 0.25s ease; }
+        .modal-content { transition: transform 0.25s ease; }
     </style>
 </head>
 
@@ -55,63 +36,28 @@
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
                         <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-                            data-alt="Logo del SENA"
-                            style='background-image: url("assets/logo_sena.png");'>
-                        </div>
+                            style='background-image: url("assets/logo_sena.png");'></div>
                         <div class="flex flex-col">
                             <h1 class="text-white text-base font-bold leading-normal">SENA</h1>
                             <p class="text-[#9dabb8] text-sm font-normal leading-normal">Automatización Educativa</p>
                         </div>
                     </div>
                     <nav class="flex flex-col gap-2 flex-grow">
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="dashboard.html">
-                            <span class="material-symbols-outlined">dashboard</span>
-                            <p class="text-sm font-medium leading-normal">Dashboard</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="SGS.html">
-                            <span class="material-symbols-outlined">description</span>
-                            <p class="text-sm font-medium leading-normal">SGS</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="reportesInscritos.html">
-                            <span class="material-symbols-outlined">download</span>
-                            <p class="text-sm font-medium leading-normal">Reportes</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="OCR.html">
-                            <span class="material-symbols-outlined">document_scanner</span>
-                            <p class="text-sm font-medium leading-normal">OCR</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="convocarAspirantes.html">
-                            <span class="material-symbols-outlined">group</span>
-                            <p class="text-sm font-medium leading-normal">Aspirantes</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="finMatricula.html">
-                            <span class="material-symbols-outlined">school</span>
-                            <p class="text-sm font-medium leading-normal">Fin Matrícula</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors"
-                            href="Configuracion.html">
-                            <span class="material-symbols-outlined">settings</span>
-                            <p class="text-sm font-medium leading-normal">Configuración</p>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30"
-                            href="auto.html">
-                            <span class="material-symbols-outlined">smart_toy</span>
-                            <p class="text-sm font-medium leading-normal">Auto</p>
-                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><p class="text-sm font-medium leading-normal">Dashboard</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="SGS.html"><span class="material-symbols-outlined">description</span><p class="text-sm font-medium leading-normal">SGS</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="reportesInscritos.html"><span class="material-symbols-outlined">download</span><p class="text-sm font-medium leading-normal">Reportes</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="OCR.html"><span class="material-symbols-outlined">document_scanner</span><p class="text-sm font-medium leading-normal">OCR</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="convocarAspirantes.html"><span class="material-symbols-outlined">group</span><p class="text-sm font-medium leading-normal">Aspirantes</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="finMatricula.html"><span class="material-symbols-outlined">school</span><p class="text-sm font-medium leading-normal">Fin Matrícula</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-white/10 hover:text-white transition-colors" href="Configuracion.html"><span class="material-symbols-outlined">settings</span><p class="text-sm font-medium leading-normal">Configuración</p></a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary transition-colors hover:bg-primary/30" href="auto.html"><span class="material-symbols-outlined">smart_toy</span><p class="text-sm font-medium leading-normal">Auto</p></a>
                     </nav>
                 </div>
             </aside>
             <main class="flex-1 p-8 overflow-y-auto ml-[250px]">
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-wrap justify-between gap-3">
-                        <h1 class="text-3xl font-black leading-tight tracking-[-0.033em]">Automatización Completa del
-                            Proceso de Matrícula</h1>
+                        <h1 class="text-3xl font-black leading-tight tracking-[-0.033em]">Automatización Completa del Proceso de Matrícula</h1>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Columna Izquierda: Configuración y Control -->
@@ -119,62 +65,28 @@
                             <h2 class="text-xl font-bold">Configuración de la Automatización</h2>
                             <div class="flex flex-col gap-4">
                                 <label class="flex flex-col">
-                                    <p class="text-sm font-medium leading-normal pb-2 dark:text-gray-300">Número de
-                                        Ficha de Caracterización</p>
-                                    <input
-                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#3c4753] bg-background-light dark:bg-[#111418] focus:border-primary h-12 placeholder:text-[#9dabb8] px-4 text-base font-normal leading-normal"
-                                        placeholder="Ingrese el número de ficha" value="" />
+                                    <p class="text-sm font-medium leading-normal pb-2 dark:text-gray-300">Número de Ficha</p>
+                                    <input id="ficha-input" class="form-input flex w-full min-w-0 flex-1 rounded-lg text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#3c4753] bg-background-light dark:bg-[#111418] focus:border-primary h-12 placeholder:text-[#9dabb8] px-4" placeholder="Ingrese el número de ficha" />
                                 </label>
                                 <div class="flex flex-col gap-2">
-                                    <p class="text-sm font-medium leading-normal dark:text-gray-300">Cargar Documentos
-                                        de Identidad (PDF)</p>
-                                    <div
-                                        class="flex flex-col items-center gap-4 rounded-lg border-2 border-dashed border-[#3c4753] px-6 py-8 text-center">
-                                        <span
-                                            class="material-symbols-outlined text-4xl text-gray-400">upload_file</span>
-                                        <p class="text-sm font-normal leading-normal text-gray-500 dark:text-gray-400">
-                                            Arrastre y suelte los archivos aquí o haga clic para seleccionar</p>
-                                        <input type="file" id="file-input" class="hidden" multiple accept=".pdf">
-                                        <button id="select-files-button"
-                                            class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/30">
-                                            <span>Seleccionar Archivos</span>
+                                    <p class="text-sm font-medium leading-normal dark:text-gray-300">Cargar Documentos (PDF)</p>
+                                    <div class="flex flex-col items-center gap-4 rounded-lg border-2 border-dashed border-[#3c4753] px-6 py-8 text-center">
+                                        <span class="material-symbols-outlined text-4xl text-gray-400">upload_file</span>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Arrastre y suelte o haga clic para seleccionar</p>
+                                        <input type="file" id="file-input" class="hidden" accept=".pdf">
+                                        <button id="select-files-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold hover:bg-primary/30">
+                                            <span>Seleccionar PDF</span>
                                         </button>
                                         <div id="file-list" class="text-sm text-gray-500 dark:text-gray-400 mt-2"></div>
                                     </div>
                                 </div>
-                                <div class="flex flex-col gap-3">
-                                    <p class="text-sm font-medium leading-normal dark:text-gray-300">Seleccione el Modo
-                                        de Ejecución</p>
-                                    <div class="flex flex-col gap-3"
-                                        style="--radio-dot-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27%23FF6A00%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%274%27/%3e%3c/svg%3e');">
-                                        <label
-                                            class="flex items-center gap-4 rounded-lg border border-solid border-[#3c4753] p-4 cursor-pointer hover:border-primary">
-                                            <input checked=""
-                                                class="h-5 w-5 border-2 border-[#3c4753] bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-primary"
-                                                name="execution-mode" type="radio" />
-                                            <p class="text-sm font-medium leading-normal dark:text-gray-200">Modo
-                                                automático completo</p>
-                                        </label>
-                                        <label
-                                            class="flex items-center gap-4 rounded-lg border border-solid border-[#3c4753] p-4 cursor-pointer hover:border-primary">
-                                            <input
-                                                class="h-5 w-5 border-2 border-[#3c4753] bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-primary"
-                                                name="execution-mode" type="radio" />
-                                            <p class="text-sm font-medium leading-normal dark:text-gray-200">Pausar para
-                                                revisión manual antes de cerrar matrícula</p>
-                                        </label>
-                                    </div>
-                                </div>
                             </div>
                             <div class="flex gap-4 mt-auto pt-4">
-                                <button
-                                    class="flex-1 flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <button id="start-automation-button" class="flex-1 flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary text-white text-base font-bold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed">
                                     <span class="material-symbols-outlined mr-2">play_arrow</span>
-                                    <span class="truncate">Iniciar Automatización Total</span>
+                                    <span class="truncate">Iniciar Automatización</span>
                                 </button>
-                                <button
-                                    class="flex-1 flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-red-600/20 text-red-500 text-base font-bold leading-normal tracking-[0.015em] hover:bg-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed"
-                                    disabled="">
+                                <button id="stop-automation-button" class="flex-1 flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-red-600/20 text-red-500 text-base font-bold hover:bg-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                                     <span class="material-symbols-outlined mr-2">stop</span>
                                     <span class="truncate">Detener Proceso</span>
                                 </button>
@@ -186,88 +98,21 @@
                             <div class="flex flex-col gap-4">
                                 <div>
                                     <div class="flex justify-between mb-1">
-                                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Progreso
-                                            General</span>
-                                        <span class="text-sm font-medium text-primary">40%</span>
+                                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Progreso General</span>
+                                        <span id="progress-text" class="text-sm font-medium text-primary">0%</span>
                                     </div>
                                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                        <div class="bg-primary h-2.5 rounded-full progress-bar" style="width: 40%">
-                                        </div>
+                                        <div id="progress-bar" class="bg-primary h-2.5 rounded-full progress-bar" style="width: 0%"></div>
                                     </div>
                                 </div>
-                                <ul class="space-y-4">
-                                    <li class="flex items-center gap-4 group">
-                                        <div
-                                            class="flex items-center justify-center size-8 rounded-full bg-green-500/20 text-green-500">
-                                            <span class="material-symbols-outlined text-xl">check</span>
-                                        </div>
-                                        <span class="font-medium text-sm text-gray-700 dark:text-gray-300">Descargando
-                                            inscritos</span>
-                                        <div
-                                            class="invisible group-hover:visible ml-auto bg-gray-700 text-white text-xs rounded py-1 px-2 absolute right-16 mt-10 z-10">
-                                            Descarga reporte de inscritos desde la plataforma.
-                                        </div>
-                                    </li>
-                                    <li class="flex items-center gap-4 group">
-                                        <div
-                                            class="flex items-center justify-center size-8 rounded-full bg-blue-500/20 text-blue-500 animate-pulse">
-                                            <span class="material-symbols-outlined text-xl">hourglass_top</span>
-                                        </div>
-                                        <span class="font-medium text-sm text-blue-500">Procesando OCR</span>
-                                        <div
-                                            class="invisible group-hover:visible ml-auto bg-gray-700 text-white text-xs rounded py-1 px-2 absolute right-16 mt-24 z-10">
-                                            Extrae datos de los documentos de identidad PDF.
-                                        </div>
-                                    </li>
-                                    <li class="flex items-center gap-4 group">
-                                        <div
-                                            class="flex items-center justify-center size-8 rounded-full bg-gray-500/20 text-gray-500">
-                                            <span class="material-symbols-outlined text-xl">pending</span>
-                                        </div>
-                                        <span class="font-medium text-sm text-gray-500 dark:text-gray-400">Convocando
-                                            aspirantes</span>
-                                    </li>
-                                    <li class="flex items-center gap-4 group">
-                                        <div
-                                            class="flex items-center justify-center size-8 rounded-full bg-gray-500/20 text-gray-500">
-                                            <span class="material-symbols-outlined text-xl">pending</span>
-                                        </div>
-                                        <span class="font-medium text-sm text-gray-500 dark:text-gray-400">Revisar
-                                            manualmente</span>
-                                    </li>
-                                    <li class="flex items-center gap-4 group">
-                                        <div
-                                            class="flex items-center justify-center size-8 rounded-full bg-red-500/20 text-red-500">
-                                            <span class="material-symbols-outlined text-xl">close</span>
-                                        </div>
-                                        <span class="font-medium text-sm text-red-500">Finalizando matrícula</span>
-                                        <div
-                                            class="invisible group-hover:visible ml-auto bg-gray-700 text-white text-xs rounded py-1 px-2 absolute right-16 mt-52 z-10">
-                                            Hubo un error al finalizar el proceso.
-                                        </div>
-                                    </li>
+                                <ul id="status-list" class="space-y-4">
+                                    <!-- Los pasos se generarán dinámicamente -->
                                 </ul>
                             </div>
                             <div class="flex flex-col gap-2 flex-grow min-h-0">
                                 <h3 class="text-base font-bold">Registro de Actividad (Logs)</h3>
-                                <div
-                                    class="bg-[#212529] rounded-lg p-4 h-64 overflow-y-auto font-mono text-xs text-gray-300 flex-grow">
-                                    <p><span class="text-cyan-400">[INFO]</span> Proceso de automatización iniciado.</p>
-                                    <p><span class="text-blue-400">[EXEC]</span> Ejecutando script:
-                                        01-GenerarReporte.ipynb...</p>
-                                    <p><span class="text-green-400">[SUCCESS]</span> Reporte de inscritos descargado
-                                        correctamente.</p>
-                                    <p><span class="text-blue-400">[EXEC]</span> Ejecutando script:
-                                        02-OCR-Jupiter.ipynb...</p>
-                                    <p><span class="text-cyan-400">[OCR-INFO]</span> Procesando documento
-                                        ID_12345.pdf...</p>
-                                    <p><span class="text-cyan-400">[OCR-INFO]</span> Procesando documento
-                                        ID_67890.pdf...</p>
-                                    <p><span class="text-red-400">[ERROR]</span> No se pudo leer el archivo
-                                        ID_67890.pdf. Saltando...</p>
-                                    <p class="animate-pulse"><span class="text-cyan-400">[OCR-INFO]</span> Procesando
-                                        documento ID_54321.pdf...<span
-                                            class="inline-block w-1 h-3 ml-1 bg-white"></span></p>
+                                <div id="log-container" class="bg-[#212529] rounded-lg p-4 h-64 overflow-y-auto font-mono text-xs text-gray-300 flex-grow">
+                                    <p><span class="text-cyan-400">[INFO]</span> Esperando inicio del proceso.</p>
                                 </div>
                             </div>
                         </div>
@@ -276,32 +121,279 @@
             </main>
         </div>
     </div>
+
+    <!-- MODALS PARA INTERACCIÓN -->
+    <!-- Modal Selección de Imágenes OCR -->
+    <div id="ocr-selection-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 opacity-0 pointer-events-none">
+        <div class="modal-content bg-background-dark rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform scale-95">
+            <div class="p-6 border-b border-gray-700">
+                <h3 class="text-xl font-bold">Seleccionar Imágenes para OCR</h3>
+                <p class="text-sm text-gray-400">Desmarque las imágenes que no correspondan a documentos de identidad.</p>
+            </div>
+            <div id="ocr-image-grid" class="p-6 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Las imágenes se insertarán aquí dinámicamente -->
+            </div>
+            <div class="p-6 border-t border-gray-700 mt-auto flex justify-end gap-4">
+                <button id="ocr-confirm-button" class="flex items-center justify-center rounded-lg h-11 px-6 bg-primary text-white font-bold hover:bg-primary/90">Confirmar Selección</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmación de Aspirantes -->
+    <div id="aspirant-confirmation-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 opacity-0 pointer-events-none">
+        <div class="modal-content bg-background-dark rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform scale-95">
+            <div class="p-6 border-b border-gray-700">
+                <h3 class="text-xl font-bold">Confirmar Aspirantes a Convocar</h3>
+                <p class="text-sm text-gray-400">Revise la lista de aspirantes con coincidencia y confirme a quiénes desea convocar.</p>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <table class="w-full text-sm text-left text-gray-400">
+                    <thead class="text-xs text-gray-300 uppercase bg-gray-700">
+                        <tr>
+                            <th scope="col" class="p-4"><input type="checkbox" id="select-all-aspirants" class="form-checkbox rounded bg-gray-800 border-gray-600 text-primary focus:ring-primary"></th>
+                            <th scope="col" class="px-6 py-3">Nombre Extraído (OCR)</th>
+                            <th scope="col" class="px-6 py-3">Identificación (OCR)</th>
+                            <th scope="col" class="px-6 py-3">Nombre Referencia (Reporte)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="aspirant-list-body">
+                        <!-- Filas de aspirantes se insertarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-gray-700 mt-auto flex justify-end gap-4">
+                <button id="aspirant-confirm-button" class="flex items-center justify-center rounded-lg h-11 px-6 bg-primary text-white font-bold hover:bg-primary/90">Confirmar y Convocar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmación Fin Matrícula -->
+    <div id="fin-matricula-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 opacity-0 pointer-events-none">
+        <div class="modal-content bg-background-dark rounded-xl shadow-2xl w-full max-w-md flex flex-col transform scale-95">
+            <div class="p-8 text-center">
+                <span class="material-symbols-outlined text-5xl text-primary mx-auto">school</span>
+                <h3 class="mt-4 text-xl font-bold">Finalizar Matrícula</h3>
+                <p class="mt-2 text-sm text-gray-400">¿Desea proceder con el proceso de "Fin de Matrícula" para los aspirantes convocados?</p>
+            </div>
+            <div class="p-6 bg-gray-800/50 mt-auto flex justify-center gap-4">
+                <button id="fin-matricula-cancel-button" class="flex-1 rounded-lg h-11 px-6 bg-gray-600 text-white font-bold hover:bg-gray-500">Cancelar</button>
+                <button id="fin-matricula-confirm-button" class="flex-1 rounded-lg h-11 px-6 bg-primary text-white font-bold hover:bg-primary/90">Sí, Finalizar</button>
+            </div>
+        </div>
+    </div>
+
 <script>
-    const selectFilesButton = document.getElementById('select-files-button');
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Elementos de la UI ---
+    const fichaInput = document.getElementById('ficha-input');
     const fileInput = document.getElementById('file-input');
     const fileList = document.getElementById('file-list');
+    const selectFilesButton = document.getElementById('select-files-button');
+    const startAutomationButton = document.getElementById('start-automation-button');
+    const stopAutomationButton = document.getElementById('stop-automation-button');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const logContainer = document.getElementById('log-container');
+    const statusList = document.getElementById('status-list');
 
-    selectFilesButton.addEventListener('click', () => {
-        fileInput.click();
-    });
+    // --- Elementos de los Modales ---
+    const ocrModal = document.getElementById('ocr-selection-modal');
+    const ocrImageGrid = document.getElementById('ocr-image-grid');
+    const ocrConfirmBtn = document.getElementById('ocr-confirm-button');
 
-    fileInput.addEventListener('change', (event) => {
-        const files = event.target.files;
-        if (files.length > 0) {
-            fileList.innerHTML = ''; // Clear previous list
-            const list = document.createElement('ul');
-            list.className = 'list-disc pl-5 text-left';
-            for (const file of files) {
-                const listItem = document.createElement('li');
-                listItem.textContent = file.name;
-                list.appendChild(listItem);
-            }
-            fileList.appendChild(list);
+    const aspirantModal = document.getElementById('aspirant-confirmation-modal');
+    const aspirantListBody = document.getElementById('aspirant-list-body');
+    const aspirantConfirmBtn = document.getElementById('aspirant-confirm-button');
+    const selectAllAspirantsCheckbox = document.getElementById('select-all-aspirants');
+
+    const finMatriculaModal = document.getElementById('fin-matricula-modal');
+    const finMatriculaConfirmBtn = document.getElementById('fin-matricula-confirm-button');
+    const finMatriculaCancelBtn = document.getElementById('fin-matricula-cancel-button');
+
+    let selectedPdfPath = null;
+    const automationSteps = [
+        "Consulta de estado SGS", "Generación de reporte de inscritos", "Pre-procesamiento OCR",
+        "Procesamiento OCR y comparación", "Convocatoria de aspirantes", "Confirmación fin de matrícula",
+        "Proceso de fin de matrícula", "Finalizado"
+    ];
+
+    // --- Funciones Auxiliares ---
+    const addLog = (message, level = 'info') => {
+        const p = document.createElement('p');
+        const colors = { info: 'text-cyan-400', error: 'text-red-400', warn: 'text-yellow-400', success: 'text-green-400', exec: 'text-blue-400' };
+        p.innerHTML = `<span class="${colors[level] || 'text-gray-300'}">[${level.toUpperCase()}]</span> ${message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}`;
+        logContainer.appendChild(p);
+        logContainer.scrollTop = logContainer.scrollHeight;
+    };
+
+    const toggleModal = (modal, show) => {
+        if (show) {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.remove('scale-95');
         } else {
-            fileList.innerHTML = '';
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.add('scale-95');
+        }
+    };
+
+    const initializeStatus = () => {
+        statusList.innerHTML = '';
+        automationSteps.forEach(step => {
+            const li = document.createElement('li');
+            li.className = 'flex items-center gap-4';
+            li.innerHTML = `
+                <div class="flex items-center justify-center size-8 rounded-full bg-gray-700 text-gray-400">
+                    <span class="material-symbols-outlined text-xl">pending</span>
+                </div>
+                <span class="font-medium text-sm text-gray-400">${step}</span>`;
+            statusList.appendChild(li);
+        });
+    };
+
+    // --- Manejo de Archivos ---
+    selectFilesButton.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            selectedPdfPath = file.path;
+            fileList.textContent = `Archivo seleccionado: ${file.name}`;
+            addLog(`PDF seleccionado: ${file.name}`, 'info');
         }
     });
+
+    // --- Lógica Principal de Automatización ---
+    startAutomationButton.addEventListener('click', async () => {
+        const ficha = fichaInput.value.trim();
+        if (!ficha) return addLog('Por favor, ingrese un número de ficha.', 'error');
+        if (!selectedPdfPath) return addLog('Por favor, seleccione un archivo PDF.', 'error');
+
+        startAutomationButton.disabled = true;
+        stopAutomationButton.disabled = false;
+        logContainer.innerHTML = '';
+        initializeStatus();
+        addLog('Iniciando automatización completa...', 'exec');
+
+        try {
+            const result = await window.api.autoExecute(ficha, selectedPdfPath);
+            if (result.success) {
+                addLog('Automatización finalizada con éxito.', 'success');
+            } else {
+                addLog(`Error en la automatización: ${result.error || 'Error desconocido'}`, 'error');
+            }
+        } catch (error) {
+            addLog(`Error de comunicación con el backend: ${error.message}`, 'error');
+        } finally {
+            startAutomationButton.disabled = false;
+            stopAutomationButton.disabled = true;
+        }
+    });
+
+    // --- Manejadores de Eventos del Backend ---
+    window.api.onAutoLog((message) => addLog(message));
+
+    window.api.onAutoProgress((data) => {
+        const percentage = Math.round(data.progress);
+        progressBar.style.width = `${percentage}%`;
+        progressText.textContent = `${percentage}%`;
+        addLog(`Progreso: ${data.message}`, 'info');
+
+        const steps = statusList.children;
+        for (let i = 0; i < steps.length; i++) {
+            const stepElement = steps[i];
+            const iconContainer = stepElement.querySelector('div');
+            const icon = iconContainer.querySelector('span');
+            const text = stepElement.querySelector('span:last-child');
+
+            if (i < data.step - 1) { // Pasos completados
+                icon.textContent = 'check';
+                iconContainer.className = 'flex items-center justify-center size-8 rounded-full bg-green-500/20 text-green-500';
+                text.className = 'font-medium text-sm text-gray-200';
+            } else if (i === data.step - 1) { // Paso actual
+                icon.textContent = 'hourglass_top';
+                iconContainer.className = 'flex items-center justify-center size-8 rounded-full bg-blue-500/20 text-blue-500 animate-pulse';
+                text.className = 'font-medium text-sm text-blue-400';
+            } else { // Pasos pendientes
+                icon.textContent = 'pending';
+                iconContainer.className = 'flex items-center justify-center size-8 rounded-full bg-gray-700 text-gray-400';
+                text.className = 'font-medium text-sm text-gray-400';
+            }
+        }
+    });
+
+    // --- MANEJADOR DE INTERACCIONES REQUERIDAS ---
+    window.api.onRequireInteraction((request) => {
+        addLog(`Interacción requerida por el usuario: ${request.interaction}`, 'warn');
+        switch (request.interaction) {
+            case 'ocr_image_selection':
+                ocrImageGrid.innerHTML = '';
+                request.data.image_paths.forEach(path => {
+                    const id = `img-checkbox-${Date.now()}-${Math.random()}`;
+                    const div = document.createElement('div');
+                    div.className = 'relative';
+                    div.innerHTML = `
+                        <input type="checkbox" id="${id}" value="${path}" class="hidden peer" checked>
+                        <label for="${id}" class="block cursor-pointer rounded-lg border-2 border-transparent peer-checked:border-primary overflow-hidden">
+                            <img src="file://${path.replace(/\\/g, '/')}" class="w-full h-auto object-cover">
+                        </label>`;
+                    ocrImageGrid.appendChild(div);
+                });
+                toggleModal(ocrModal, true);
+                break;
+
+            case 'convocar_aspirantes_confirmation':
+                aspirantListBody.innerHTML = '';
+                request.data.aspirantes.forEach(aspirante => {
+                    const row = document.createElement('tr');
+                    row.className = 'bg-gray-800 border-b border-gray-700 hover:bg-gray-600';
+                    row.innerHTML = `
+                        <td class="w-4 p-4"><input type="checkbox" value='${JSON.stringify(aspirante)}' class="aspirant-checkbox form-checkbox rounded bg-gray-700 border-gray-600 text-primary focus:ring-primary" checked></td>
+                        <td class="px-6 py-4">${aspirante.Nombre_Ext || 'N/A'}</td>
+                        <td class="px-6 py-4">${aspirante.Identificacion_Ext || 'N/A'}</td>
+                        <td class="px-6 py-4">${aspirante.Nombre_Ref || 'N/A'}</td>`;
+                    aspirantListBody.appendChild(row);
+                });
+                selectAllAspirantsCheckbox.checked = true;
+                toggleModal(aspirantModal, true);
+                break;
+
+            case 'fin_matricula_confirmation':
+                toggleModal(finMatriculaModal, true);
+                break;
+        }
+    });
+
+    // --- Event Listeners para los botones de los modales ---
+    ocrConfirmBtn.addEventListener('click', () => {
+        const selected_images = Array.from(ocrImageGrid.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        window.api.sendInteractionResponse({ selected_images });
+        toggleModal(ocrModal, false);
+    });
+
+    aspirantConfirmBtn.addEventListener('click', () => {
+        const confirmed_aspirants = Array.from(aspirantListBody.querySelectorAll('input[type="checkbox"]:checked')).map(cb => JSON.parse(cb.value));
+        window.api.sendInteractionResponse({ confirmed_aspirants });
+        toggleModal(aspirantModal, false);
+    });
+
+    selectAllAspirantsCheckbox.addEventListener('change', (e) => {
+        aspirantListBody.querySelectorAll('.aspirant-checkbox').forEach(checkbox => {
+            checkbox.checked = e.target.checked;
+        });
+    });
+
+    finMatriculaConfirmBtn.addEventListener('click', () => {
+        window.api.sendInteractionResponse({ confirm: true });
+        toggleModal(finMatriculaModal, false);
+    });
+
+    finMatriculaCancelBtn.addEventListener('click', () => {
+        window.api.sendInteractionResponse({ confirm: false });
+        toggleModal(finMatriculaModal, false);
+    });
+
+    // Inicializar la lista de estados al cargar
+    initializeStatus();
+});
 </script>
 </body>
-
 </html>
