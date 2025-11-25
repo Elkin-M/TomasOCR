@@ -26,6 +26,39 @@
         .progress-bar { transition: width 0.5s ease-in-out; }
         .modal { transition: opacity 0.25s ease; }
         .modal-content { transition: transform 0.25s ease; }
+        .comparison-card {
+    transition: all 0.2s ease;
+}
+
+.comparison-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 106, 0, 0.2);
+}
+
+.confidence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.confidence-high {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: rgb(34, 197, 94);
+}
+
+.confidence-medium {
+    background-color: rgba(234, 179, 8, 0.2);
+    color: rgb(234, 179, 8);
+}
+
+.confidence-low {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: rgb(239, 68, 68);
+}
     </style>
 </head>
 
@@ -182,7 +215,88 @@
         </div>
     </div>
 
+    <!-- Modal Vista Previa de Comparación OCR -->
+<div id="comparison-preview-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 opacity-0 pointer-events-none">
+    <div class="modal-content bg-background-dark rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col transform scale-95">
+        <!-- Header -->
+        <div class="p-6 border-b border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold flex items-center gap-3">
+                        <span class="material-symbols-outlined text-3xl text-primary">assignment_turned_in</span>
+                        Resultados de Comparación OCR
+                    </h3>
+                    <p class="text-sm text-gray-400 mt-2">Revise los aspirantes identificados y confirme a quiénes desea convocar</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-3xl font-bold text-primary" id="preview-total-matches">0</div>
+                    <div class="text-xs text-gray-400">Coincidencias</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-700">
+            <div class="grid grid-cols-3 gap-4">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-400" id="preview-images-processed">0</div>
+                    <div class="text-xs text-gray-400">Imágenes Procesadas</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-400" id="preview-high-confidence">0</div>
+                    <div class="text-xs text-gray-400">Alta Confianza (>80%)</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-yellow-400" id="preview-medium-confidence">0</div>
+                    <div class="text-xs text-gray-400">Media Confianza (60-80%)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Resultados -->
+        <div class="p-6 overflow-y-auto flex-1">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-semibold">Aspirantes Identificados</h4>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="preview-select-all" class="form-checkbox rounded bg-gray-800 border-gray-600 text-primary focus:ring-primary">
+                    <span class="text-sm text-gray-300">Seleccionar todos</span>
+                </label>
+            </div>
+
+            <div id="comparison-results-container" class="space-y-3">
+                <!-- Las tarjetas se generarán dinámicamente aquí -->
+            </div>
+
+            <!-- Mensaje si no hay resultados -->
+            <div id="no-results-message" class="hidden text-center py-12">
+                <span class="material-symbols-outlined text-6xl text-gray-600">search_off</span>
+                <p class="mt-4 text-gray-400">No se encontraron aspirantes con coincidencia en el OCR</p>
+            </div>
+        </div>
+
+        <!-- Footer con Acciones -->
+        <div class="p-6 border-t border-gray-700 bg-gray-800/30 flex items-center justify-between">
+            <div>
+                <button id="preview-open-report-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors">
+                    <span class="material-symbols-outlined">description</span>
+                    <span class="text-sm">Ver Informe Completo</span>
+                </button>
+            </div>
+            <div class="flex gap-3">
+                <button id="preview-cancel-btn" class="px-6 py-3 rounded-lg bg-gray-700 text-white font-bold hover:bg-gray-600 transition-colors">
+                    Cancelar Proceso
+                </button>
+                <button id="preview-confirm-btn" class="flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors">
+                    <span class="material-symbols-outlined">how_to_reg</span>
+                    <span id="preview-confirm-count">Convocar 0 Aspirantes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elementos de la UI ---
     const fichaInput = document.getElementById('ficha-input');
@@ -210,17 +324,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const finMatriculaConfirmBtn = document.getElementById('fin-matricula-confirm-button');
     const finMatriculaCancelBtn = document.getElementById('fin-matricula-cancel-button');
 
+    // --- Elementos del Modal de Vista Previa ---
+    const comparisonPreviewModal = document.getElementById('comparison-preview-modal');
+    const comparisonResultsContainer = document.getElementById('comparison-results-container');
+    const noResultsMessage = document.getElementById('no-results-message');
+    const previewSelectAllCheckbox = document.getElementById('preview-select-all');
+    const previewConfirmBtn = document.getElementById('preview-confirm-btn');
+    const previewCancelBtn = document.getElementById('preview-cancel-btn');
+    const previewOpenReportBtn = document.getElementById('preview-open-report-btn');
+    const previewTotalMatches = document.getElementById('preview-total-matches');
+    const previewImagesProcessed = document.getElementById('preview-images-processed');
+    const previewHighConfidence = document.getElementById('preview-high-confidence');
+    const previewMediumConfidence = document.getElementById('preview-medium-confidence');
+    const previewConfirmCount = document.getElementById('preview-confirm-count');
+
+    let currentComparisonData = null;
+    let currentReportPath = null;
+
     let selectedPdfPath = null;
     const automationSteps = [
-        "Consulta de estado SGS", "Generación de reporte de inscritos", "Pre-procesamiento OCR",
-        "Procesamiento OCR y comparación", "Convocatoria de aspirantes", "Confirmación fin de matrícula",
-        "Proceso de fin de matrícula", "Finalizado"
+        "Consulta de estado SGS", 
+        "Generación de reporte de inscritos", 
+        "Pre-procesamiento OCR",
+        "Procesamiento OCR y comparación", 
+        "Convocatoria de aspirantes", 
+        "Confirmación fin de matrícula",
+        "Proceso de fin de matrícula", 
+        "Finalizado"
     ];
 
     // --- Funciones Auxiliares ---
     const addLog = (message, level = 'info') => {
         const p = document.createElement('p');
-        const colors = { info: 'text-cyan-400', error: 'text-red-400', warn: 'text-yellow-400', success: 'text-green-400', exec: 'text-blue-400' };
+        const colors = { 
+            info: 'text-cyan-400', 
+            error: 'text-red-400', 
+            warn: 'text-yellow-400', 
+            success: 'text-green-400', 
+            exec: 'text-blue-400',
+            debug: 'text-gray-500'
+        };
         p.innerHTML = `<span class="${colors[level] || 'text-gray-300'}">[${level.toUpperCase()}]</span> ${message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}`;
         logContainer.appendChild(p);
         logContainer.scrollTop = logContainer.scrollHeight;
@@ -252,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Manejo de Archivos ---
     selectFilesButton.addEventListener('click', () => fileInput.click());
+    
     fileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -264,24 +408,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Lógica Principal de Automatización ---
     startAutomationButton.addEventListener('click', async () => {
         const ficha = fichaInput.value.trim();
-        if (!ficha) return addLog('Por favor, ingrese un número de ficha.', 'error');
-        if (!selectedPdfPath) return addLog('Por favor, seleccione un archivo PDF.', 'error');
+        if (!ficha) {
+            addLog('❌ Por favor, ingrese un número de ficha.', 'error');
+            return;
+        }
+        if (!selectedPdfPath) {
+            addLog('❌ Por favor, seleccione un archivo PDF.', 'error');
+            return;
+        }
 
         startAutomationButton.disabled = true;
         stopAutomationButton.disabled = false;
         logContainer.innerHTML = '';
         initializeStatus();
-        addLog('Iniciando automatización completa...', 'exec');
+        addLog('🚀 Iniciando automatización completa...', 'exec');
 
         try {
             const result = await window.api.autoExecute(ficha, selectedPdfPath);
             if (result.success) {
-                addLog('Automatización finalizada con éxito.', 'success');
+                addLog('✅ Automatización finalizada con éxito.', 'success');
             } else {
-                addLog(`Error en la automatización: ${result.error || 'Error desconocido'}`, 'error');
+                addLog(`❌ Error en la automatización: ${result.error || 'Error desconocido'}`, 'error');
             }
         } catch (error) {
-            addLog(`Error de comunicación con el backend: ${error.message}`, 'error');
+            addLog(`❌ Error de comunicación con el backend: ${error.message}`, 'error');
+            console.error('Error en autoExecute:', error);
         } finally {
             startAutomationButton.disabled = false;
             stopAutomationButton.disabled = true;
@@ -289,13 +440,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Manejadores de Eventos del Backend ---
-    window.api.onAutoLog((message) => addLog(message));
+    window.api.onAutoLog((message) => {
+        addLog(message);
+    });
 
     window.api.onAutoProgress((data) => {
         const percentage = Math.round(data.progress);
         progressBar.style.width = `${percentage}%`;
         progressText.textContent = `${percentage}%`;
-        addLog(`Progreso: ${data.message}`, 'info');
+        addLog(`📊 Progreso: ${data.message}`, 'info');
 
         const steps = statusList.children;
         for (let i = 0; i < steps.length; i++) {
@@ -304,15 +457,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const icon = iconContainer.querySelector('span');
             const text = stepElement.querySelector('span:last-child');
 
-            if (i < data.step - 1) { // Pasos completados
+            if (i < data.step - 1) {
                 icon.textContent = 'check';
                 iconContainer.className = 'flex items-center justify-center size-8 rounded-full bg-green-500/20 text-green-500';
                 text.className = 'font-medium text-sm text-gray-200';
-            } else if (i === data.step - 1) { // Paso actual
+            } else if (i === data.step - 1) {
                 icon.textContent = 'hourglass_top';
                 iconContainer.className = 'flex items-center justify-center size-8 rounded-full bg-blue-500/20 text-blue-500 animate-pulse';
                 text.className = 'font-medium text-sm text-blue-400';
-            } else { // Pasos pendientes
+            } else {
                 icon.textContent = 'pending';
                 iconContainer.className = 'flex items-center justify-center size-8 rounded-full bg-gray-700 text-gray-400';
                 text.className = 'font-medium text-sm text-gray-400';
@@ -320,13 +473,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- MANEJADOR DE INTERACCIONES REQUERIDAS ---
+    // ============================================
+    // ✅ MANEJADOR DE INTERACCIONES (CORREGIDO)
+    // ============================================
     window.api.onRequireInteraction((request) => {
-        addLog(`Interacción requerida por el usuario: ${request.interaction}`, 'warn');
-        switch (request.interaction) {
-            case 'ocr_image_selection':
-                ocrImageGrid.innerHTML = '';
-                request.data.image_paths.forEach(path => {
+    console.log('🔔 Interacción requerida:', request.interaction);
+    addLog(`⏸️ Interacción requerida: ${request.interaction}`, 'warn');
+    
+    switch (request.interaction) {
+        case 'ocr_image_selection':
+        ocrImageGrid.innerHTML = '';
+                request.data.original_paths.forEach(path => {
                     const id = `img-checkbox-${Date.now()}-${Math.random()}`;
                     const div = document.createElement('div');
                     div.className = 'relative';
@@ -338,10 +495,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     ocrImageGrid.appendChild(div);
                 });
                 toggleModal(ocrModal, true);
-                break;
+            break;
 
-            case 'convocar_aspirantes_confirmation':
-                aspirantListBody.innerHTML = '';
+        case 'convocar_aspirantes_confirmation':
+        aspirantListBody.innerHTML = '';
                 request.data.aspirantes.forEach(aspirante => {
                     const row = document.createElement('tr');
                     row.className = 'bg-gray-800 border-b border-gray-700 hover:bg-gray-600';
@@ -354,46 +511,365 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 selectAllAspirantsCheckbox.checked = true;
                 toggleModal(aspirantModal, true);
-                break;
+            break;
 
-            case 'fin_matricula_confirmation':
-                toggleModal(finMatriculaModal, true);
-                break;
-        }
-    });
+        case 'fin_matricula_confirmation':
+            toggleModal(finMatriculaModal, true);  // ✅ También corregí este bug (decía aspirantModal)
+            break;
 
-    // --- Event Listeners para los botones de los modales ---
+        // ✅ NUEVO CASO
+        case 'comparison_preview':
+                // ✅ NUEVO: Mostrar vista previa de comparación
+                console.log('📊 Mostrando vista previa de comparación');
+                if (request.data) {
+                    showComparisonPreview(request.data);
+                } else {
+                    console.error('❌ No se recibieron datos de comparación');
+                    addLog('❌ Error: datos de comparación no disponibles', 'error');
+                }
+            break;
+
+default:
+    console.warn('⚠️ Tipo de interacción desconocido:', request.interaction);
+    }
+});
+
+    // ============================================
+    // ✅ EVENT LISTENERS DE LOS MODALES (CORREGIDO)
+    // ============================================
+
+    // --- Modal OCR ---
     ocrConfirmBtn.addEventListener('click', () => {
-        const selected_images = Array.from(ocrImageGrid.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-        window.api.sendInteractionResponse({ selected_images });
+        const checkboxes = ocrImageGrid.querySelectorAll('input[type="checkbox"]:checked');
+        const selected_images = Array.from(checkboxes).map(cb => cb.value);
+        
+        console.log(`✅ Usuario confirmó ${selected_images.length} imágenes`);
+        addLog(`✅ Seleccionadas ${selected_images.length} imágenes para OCR`, 'success');
+        
+        // ✅ CRÍTICO: Enviar SOLO el objeto responseData
+        window.api.sendInteractionResponse({
+            interactionType: 'ocr_image_selection',
+            responseData: {
+                selected_images: selected_images
+            }
+        });
+        
         toggleModal(ocrModal, false);
     });
 
+    // --- Modal Aspirantes ---
     aspirantConfirmBtn.addEventListener('click', () => {
-        const confirmed_aspirants = Array.from(aspirantListBody.querySelectorAll('input[type="checkbox"]:checked')).map(cb => JSON.parse(cb.value));
-        window.api.sendInteractionResponse({ confirmed_aspirants });
+        const checkboxes = aspirantListBody.querySelectorAll('input[type="checkbox"]:checked');
+        const confirmed_aspirants = Array.from(checkboxes).map(cb => {
+            try {
+                return JSON.parse(cb.value);
+            } catch (error) {
+                console.error('❌ Error parseando aspirante:', error);
+                return null;
+            }
+        }).filter(Boolean);
+        
+        console.log(`✅ Usuario confirmó ${confirmed_aspirants.length} aspirantes`);
+        addLog(`✅ Confirmados ${confirmed_aspirants.length} aspirantes para convocar`, 'success');
+        
+        // ✅ CRÍTICO: Enviar SOLO el objeto responseData
+        window.api.sendInteractionResponse({
+            interactionType: 'convocar_aspirantes_confirmation',
+            responseData: {
+                confirmed_aspirants: confirmed_aspirants
+            }
+        });
+        
         toggleModal(aspirantModal, false);
     });
 
+    // --- Seleccionar todos los aspirantes ---
     selectAllAspirantsCheckbox.addEventListener('change', (e) => {
         aspirantListBody.querySelectorAll('.aspirant-checkbox').forEach(checkbox => {
             checkbox.checked = e.target.checked;
         });
     });
 
+    // --- Modal Fin Matrícula: Confirmar ---
     finMatriculaConfirmBtn.addEventListener('click', () => {
-        window.api.sendInteractionResponse({ confirm: true });
+        console.log('✅ Usuario confirmó fin de matrícula');
+        addLog('✅ Fin de matrícula confirmado', 'success');
+        
+        // ✅ CRÍTICO: Enviar SOLO el objeto responseData
+        window.api.sendInteractionResponse({
+            interactionType: 'fin_matricula_confirmation',
+            responseData: {
+                confirm: true
+            }
+        });
+        
         toggleModal(finMatriculaModal, false);
     });
 
+    // --- Modal Fin Matrícula: Cancelar ---
     finMatriculaCancelBtn.addEventListener('click', () => {
-        window.api.sendInteractionResponse({ confirm: false });
+        console.log('❌ Usuario canceló fin de matrícula');
+        addLog('⏩ Fin de matrícula omitido', 'warn');
+        
+        window.api.sendInteractionResponse({
+            interactionType: 'fin_matricula_confirmation',
+            responseData: {
+                confirm: false
+            }
+        });
+        
         toggleModal(finMatriculaModal, false);
     });
 
-    // Inicializar la lista de estados al cargar
+    // ============================================
+    // ✅ BOTÓN DE DEBUGGING (OPCIONAL)
+    // ============================================
+    const debugButton = document.createElement('button');
+    debugButton.textContent = '🔍 Debug';
+    debugButton.className = 'fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-lg hover:bg-blue-700';
+    debugButton.addEventListener('click', async () => {
+        try {
+            const status = await window.api.checkPythonStatus();
+            console.log('🔍 Estado de Python:', status);
+            addLog(`Python Status: ${JSON.stringify(status, null, 2)}`, 'debug');
+            
+            alert(`Python Process Status:\n\n${JSON.stringify(status, null, 2)}`);
+        } catch (error) {
+            console.error('Error checking status:', error);
+            addLog(`Error verificando estado: ${error.message}`, 'error');
+        }
+    });
+    document.body.appendChild(debugButton);
+
+    // --- Inicializar ---
     initializeStatus();
+    addLog('🟢 Sistema listo. Configure la ficha y PDF para comenzar.', 'info');
+
+
+    // ============================================
+    // FUNCIONES PARA EL MODAL DE VISTA PREVIA
+    // ============================================
+
+    function showComparisonPreview(data) {
+        console.log('📊 Mostrando vista previa de comparación:', data);
+        currentComparisonData = data;
+        currentReportPath = data.report_path;
+        
+        // Actualizar estadísticas
+        previewTotalMatches.textContent = data.total_matches;
+        previewImagesProcessed.textContent = data.total_images_processed;
+        
+        // Calcular confianza
+        const highConf = data.matches.filter(m => m.confidence >= 80).length;
+        const mediumConf = data.matches.filter(m => m.confidence >= 60 && m.confidence < 80).length;
+        previewHighConfidence.textContent = highConf;
+        previewMediumConfidence.textContent = mediumConf;
+        
+        // Limpiar contenedor
+        comparisonResultsContainer.innerHTML = '';
+        
+        if (data.total_matches === 0) {
+            noResultsMessage.classList.remove('hidden');
+            previewConfirmBtn.disabled = true;
+            previewConfirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            return;
+        }
+        
+        noResultsMessage.classList.add('hidden');
+        
+        // Generar tarjetas de aspirantes
+        data.matches.forEach((match, index) => {
+            const card = createComparisonCard(match, index);
+            comparisonResultsContainer.appendChild(card);
+        });
+        
+        // Seleccionar todos por defecto
+        previewSelectAllCheckbox.checked = true;
+        updateConfirmButtonCount();
+        
+        // Mostrar modal
+        toggleModal(comparisonPreviewModal, true);
+        addLog(`📊 Vista previa de comparación mostrada: ${data.total_matches} coincidencias`, 'info');
+    }
+
+
+    function createComparisonCard(match, index) {
+        const card = document.createElement('div');
+        card.className = 'comparison-card bg-gray-800 rounded-lg p-4 border-2 border-transparent hover:border-primary/50';
+        
+        // Determinar badge de confianza
+        let confidenceBadge = '';
+        if (match.confidence >= 80) {
+            confidenceBadge = `<span class="confidence-badge confidence-high">
+                <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                Alta Confianza (${match.confidence}%)
+            </span>`;
+        } else if (match.confidence >= 60) {
+            confidenceBadge = `<span class="confidence-badge confidence-medium">
+                <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
+                Media Confianza (${match.confidence}%)
+            </span>`;
+        } else {
+            confidenceBadge = `<span class="confidence-badge confidence-low">
+                <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
+                Baja Confianza (${match.confidence}%)
+            </span>`;
+        }
+        
+        card.innerHTML = `
+            <div class="flex items-start gap-4">
+                <!-- Checkbox de selección -->
+                <div class="flex items-center pt-1">
+                    <input type="checkbox" 
+                           id="preview-match-${index}" 
+                           data-match='${JSON.stringify(match.raw_data)}' 
+                           class="preview-match-checkbox form-checkbox w-5 h-5 rounded bg-gray-700 border-gray-600 text-primary focus:ring-primary" 
+                           checked>
+                </div>
+                
+                <!-- Contenido -->
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-3">
+                        <label for="preview-match-${index}" class="cursor-pointer">
+                            <h5 class="text-lg font-semibold text-white hover:text-primary transition-colors">
+                                ${match.nombre_extraido}
+                            </h5>
+                        </label>
+                        ${confidenceBadge}
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <!-- Columna: Datos Extraídos (OCR) -->
+                        <div class="bg-blue-500/10 rounded-lg p-3 border border-blue-500/30">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-blue-400" style="font-size: 18px;">document_scanner</span>
+                                <span class="text-xs font-semibold text-blue-400 uppercase">Datos OCR</span>
+                            </div>
+                            <div class="space-y-1">
+                                <div>
+                                    <span class="text-gray-400 text-xs">Nombre:</span>
+                                    <p class="text-white font-medium">${match.nombre_extraido}</p>
+                                </div>
+                                <div>
+                                    <span class="text-gray-400 text-xs">Identificación:</span>
+                                    <p class="text-white font-mono">${match.identificacion_extraida}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Columna: Datos de Referencia (Reporte) -->
+                        <div class="bg-green-500/10 rounded-lg p-3 border border-green-500/30">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-green-400" style="font-size: 18px;">description</span>
+                                <span class="text-xs font-semibold text-green-400 uppercase">Datos Reporte</span>
+                            </div>
+                            <div class="space-y-1">
+                                <div>
+                                    <span class="text-gray-400 text-xs">Nombre:</span>
+                                    <p class="text-white font-medium">${match.nombre_referencia}</p>
+                                </div>
+                                <div>
+                                    <span class="text-gray-400 text-xs">Identificación:</span>
+                                    <p class="text-white font-mono">${match.identificacion_referencia || 'N/A'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        return card;
+    }
+
+    function updateConfirmButtonCount() {
+        const checkedCount = document.querySelectorAll('.preview-match-checkbox:checked').length;
+        previewConfirmCount.textContent = `Convocar ${checkedCount} Aspirante${checkedCount !== 1 ? 's' : ''}`;
+        
+        if (checkedCount === 0) {
+            previewConfirmBtn.disabled = true;
+            previewConfirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            previewConfirmBtn.disabled = false;
+            previewConfirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    // ============================================
+    // EVENT LISTENERS PARA EL MODAL
+    // ============================================
+
+    // Seleccionar/Deseleccionar todos
+    previewSelectAllCheckbox.addEventListener('change', (e) => {
+        document.querySelectorAll('.preview-match-checkbox').forEach(checkbox => {
+            checkbox.checked = e.target.checked;
+        });
+        updateConfirmButtonCount();
+    });
+
+    // Actualizar contador cuando se marca/desmarca individual
+    comparisonResultsContainer.addEventListener('change', (e) => {
+        if (e.target.classList.contains('preview-match-checkbox')) {
+            updateConfirmButtonCount();
+            
+            // Actualizar checkbox de "Seleccionar todos"
+            const totalCheckboxes = document.querySelectorAll('.preview-match-checkbox').length;
+            const checkedCheckboxes = document.querySelectorAll('.preview-match-checkbox:checked').length;
+            previewSelectAllCheckbox.checked = totalCheckboxes === checkedCheckboxes;
+        }
+    });
+
+    // Confirmar y continuar con convocatoria
+    previewConfirmBtn.addEventListener('click', () => {
+        const checkedCheckboxes = document.querySelectorAll('.preview-match-checkbox:checked');
+        const confirmed_aspirants = Array.from(checkedCheckboxes).map(cb => {
+            try {
+                return JSON.parse(cb.getAttribute('data-match'));
+            } catch (error) {
+                console.error('❌ Error parseando aspirante:', error);
+                return null;
+            }
+        }).filter(Boolean);
+        
+        console.log(`✅ Usuario confirmó ${confirmed_aspirants.length} aspirantes desde vista previa`);
+        addLog(`✅ Confirmados ${confirmed_aspirants.length} aspirantes para convocar`, 'success');
+        
+        // Enviar confirmación al backend
+        window.api.sendInteractionResponse({
+            interactionType: 'comparison_preview',
+            responseData: {
+                confirmed_aspirants: confirmed_aspirants
+            }
+        });
+        
+        toggleModal(comparisonPreviewModal, false);
+    });
+
+    // Cancelar proceso
+    previewCancelBtn.addEventListener('click', () => {
+        console.log('❌ Usuario canceló la convocatoria desde vista previa');
+        addLog('⏩ Convocatoria cancelada por el usuario', 'warn');
+        
+        window.api.sendInteractionResponse({
+            interactionType: 'comparison_preview',
+            responseData: {
+                confirmed_aspirants: []
+            }
+        });
+        
+        toggleModal(comparisonPreviewModal, false);
+    });
+
+    // Abrir informe completo
+    previewOpenReportBtn.addEventListener('click', () => {
+        if (currentReportPath) {
+            console.log('📄 Abriendo informe:', currentReportPath);
+            window.api.openFile(currentReportPath);
+            addLog(`📄 Abriendo informe: ${currentReportPath}`, 'info');
+        }
+    });
 });
+
 </script>
 </body>
 </html>
